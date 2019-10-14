@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PROFILE</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+    <style>
+        /* Center the loader */
+        #loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Add animation to "page content" */
+        .animate-bottom {
+            position: relative;
+            -webkit-animation-name: animatebottom;
+            -webkit-animation-duration: 1s;
+            animation-name: animatebottom;
+            animation-duration: 1s
+        }
+
+        @-webkit-keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0px;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
+
+        #myDiv {
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loader" style="display: none;"></div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">SALES24.com</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="#">DEALS</a></li>
+                <li><a href="#">ABOUT</a></li>
+                <li><a href="#">CONTACT</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="navbar-text" id="lastLogin"></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" href="#"
+                        role="button" aria-haspopup="true" aria-expanded="false">
+                        Hi,User
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="postAD.html">Post AD</a></li>
+                        <li><a href="#">AD's Posted</a></li>
+                        <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
+                        <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+
+        <form class="form-horizontal" id="userProfile">
+            <fieldset>
+                <!-- Form Name -->
+                <legend>User Profile</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">User Name</label>
+                    <div class="col-md-4">
+                        <label class="col-md-4 control-label" for="textinput" id="username" style="text-align: left; position:absolute;">username</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Name</label>
+                    <div class="col-md-4">
+                        <label class="col-md-4 control-label" id="name" style="text-align: left; position:absolute;">name</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Email</label>
+                    <div class="col-md-4">
+                        <label class="col-md-4 control-label" for="textinput" id="email" style="text-align: left; position:absolute;">email</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Mobile Number</label>
+                    <div class="col-md-4">
+                        <label class="col-md-4 control-label" for="textinput" id="mobileNumber" style="text-align: left; position:fixed;">mobileNumber</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Total ADs Posted</label>
+                    <div class="col-md-4">
+                        <label class="col-md-4 control-label" for="textinput" id="totalAdsPosted" style="text-align: left; position:absolute;">totalAdsPosted</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Last Login</label>
+                    <div class="col-md-4">
+                        <label class="col-md-4 control-label" for="textinput" id="LastLogin" style="text-align: left; position:fixed;">lastLogin</label>
+                    </div>
+                </div>
+                <br>
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="singlebutton"></label>
+                    <div class="col-md-4">
+                        <button id="singlebutton" name="singlebutton" class="btn btn-primary">Close</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+<script>
+    function readCookie(name) {
+        var i, c, ca, nameEQ = name + "=";
+        ca = document.cookie.split(';');
+        for (i = 0; i < ca.length; i++) {
+            c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) == 0) {
+                return c.substring(nameEQ.length, c.length);
+            }
+        }
+        return '';
+    }
+    if (readCookie("_sales24JWT") == '') {
+        window.location = 'login.html';
+    }
+
+    var user_data = JSON.parse(readCookie("_sales24JWT"))
+    document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
+        document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
+
+    var delete_cookie = function (name) {
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    };
+
+    function logout() {
+        var logout_confirm = confirm("Do you wish to logout?")
+        if (logout_confirm) {
+            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
+            document.getElementById("loader").style.display = "block";
+            var logout_operation = async () => await fetch(url, {
+                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/text',
+                    'Authorization': user_data.Token
+                }
+            }).then((res) => {
+                return res.text().then((data) => {
+                    alert("You Have successfully Logged out of current session.")
+                    delete_cookie("_sales24JWT")
+                    window.location = 'index1.html';
+                })
+            }).catch((err) => {
+                alert("Something went wrong. Please login Again")
+                delete_cookie("_sales24JWT")
+                window.location = 'login.html';
+            })
+            logout_operation()
+        }
+    }
+
+
+    function logoutAll() {
+        var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
+        if (logoutAll_confirm) {
+            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
+            document.getElementById("loader").style.display = "block";
+            var logoutAll_operation = async () => await fetch(url, {
+                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/text',
+                    'Authorization': user_data.Token
+                }
+            }).then((res) => {
+                return res.text().then((data) => {
+                    alert("You Have successfully Logged out of all devices.")
+                    delete_cookie("_sales24JWT")
+                    window.location = 'index1.html';
+                })
+            }).catch((err) => {
+                alert("Something went wrong. Please login Again")
+                delete_cookie("_sales24JWT")
+                window.location = 'login.html';
+            })
+            logoutAll_operation()
+        }
+    }
+    var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me"
+    document.getElementById("userProfile").style.display = "none"
+    document.getElementById("loader").style.display = "block";
+    var profile_details = async () => await fetch(url, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/text',
+            'Authorization': user_data.Token
+        }
+    }).then((res) => {
+        return res.text().then((data) => {
+            data = JSON.parse(data)
+            document.getElementById("username").innerHTML = data.USERNAME
+            document.getElementById("name").innerHTML = data.NAME
+            document.getElementById("email").innerHTML = data.EMAIL
+            document.getElementById("mobileNumber").innerHTML = data.MOBILE_NUMBER
+            document.getElementById("totalAdsPosted").innerHTML = data.TOTAL_ADS_POSTED
+            document.getElementById("LastLogin").innerHTML = data.LAST_LOGIN
+            document.getElementById("userProfile").style.display = "block"
+            document.getElementById("loader").style.display = "none";
+        })
+    }).catch((err) => {
+        alert("Something went wrong. Please login Again")
+        delete_cookie("_sales24JWT")
+        window.location = 'login.html';
+    })
+    profile_details()
+    document.getElementById('userProfile').addEventListener('submit', (e) => {
+        e.preventDefault()
+        window.location = 'index.html';
+    })
+</script>
+
+</html>

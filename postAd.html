@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>POST AD</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <style>
+    /* Center the loader */
+    #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Add animation to "page content" */
+    .animate-bottom {
+      position: relative;
+      -webkit-animation-name: animatebottom;
+      -webkit-animation-duration: 1s;
+      animation-name: animatebottom;
+      animation-duration: 1s
+    }
+
+    @-webkit-keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0px;
+        opacity: 1
+      }
+    }
+
+    @keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0;
+        opacity: 1
+      }
+    }
+
+    #myDiv {
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader" style="display: none;"></div>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index.html">SALES24.com</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html">Home</a></li>
+        <li><a href="#">DEALS</a></li>
+        <li><a href="#">ABOUT</a></li>
+        <li><a href="#">CONTACT</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="navbar-text" id="lastLogin"></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" href="#" role="button"
+            aria-haspopup="true" aria-expanded="false">
+            Hi,User
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="#">Post AD</a></li>
+            <li><a href="#">AD's Posted</a></li>
+            <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
+            <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <form class="form-horizontal" action="javascript:void(0)" id="postAdForm">
+      <fieldset>
+
+        <!-- Form Name -->
+        <legend>POST AD</legend>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="productName">Product Name</label>
+          <div class="col-md-4">
+            <input id="productName" name="productName" type="text" placeholder="productName"
+              class="form-control input-md" required="">
+
+          </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="description">Product Description</label>
+          <div class="col-md-4">
+            <textarea class="form-control" id="productDescription" name="description" placeholder="Product Description"
+              required></textarea>
+          </div>
+        </div>
+
+        <!-- Select Basic -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="selectbasic">Product Category</label>
+          <div class="col-md-4">
+            <select id="productCategory" name="productCategory" class="form-control">
+              <option value="Electronics" selected>Electronics</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Home Appliances">Home Appliances</option>
+              <option value="Two Wheeler">Two Wheeler</option>
+              <option value="Four Wheeler">Four Wheeler</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="productName">Product Price</label>
+          <div class="col-md-4">
+            <input id="productPrice" name="productPrice" type="number" minlength="2" placeholder="productPrice"
+              class="form-control input-md" required="" pattern="[0-9].{1,}">
+          </div>
+        </div>
+
+        <!-- Select Basic -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="selectbasic">Location</label>
+          <div class="col-md-4">
+            <select id="productLocation" name="productLocation" class="form-control">
+              <option> Choose...</option>
+              <option>Mumbai</option>
+              <option selected="">Bangalore</option>
+              <option>Pune</option>
+              <option>Hyderabad</option>
+              <option>Kolkata</option>
+            </select>
+          </div>
+        </div>
+        <!-- File Button -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="filebutton">Photos</label>
+          <div class="col-md-4">
+            <input id="filebutton" name="filebutton" class="input-file" type="file" accept=".jpg" required>
+          </div>
+        </div>
+
+        <!-- Button -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="singlebutton"></label>
+          <div class="col-md-4">
+            <button id="singlebutton" name="singlebutton" class="btn btn-primary">POST AD</button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</body>
+
+<script>
+  function readCookie(name) {
+    var i, c, ca, nameEQ = name + "=";
+    ca = document.cookie.split(';');
+    for (i = 0; i < ca.length; i++) {
+      c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1, c.length);
+      }
+      if (c.indexOf(nameEQ) == 0) {
+        return c.substring(nameEQ.length, c.length);
+      }
+    }
+    return '';
+  }
+  if (readCookie("_sales24JWT") == '') {
+    window.location = 'login.html';
+  }
+
+  var user_data = JSON.parse(readCookie("_sales24JWT"))
+  document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
+    document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
+
+  var delete_cookie = function (name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  };
+
+  function logout() {
+    var logout_confirm = confirm("Do you wish to logout?")
+    if (logout_confirm) {
+      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
+      document.getElementById("loader").style.display = "block";
+      var logout_operation = async () => await fetch(url, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/text',
+          'Authorization': user_data.Token
+        }
+      }).then((res) => {
+        return res.text().then((data) => {
+          alert("You Have successfully Logged out of current session.")
+          delete_cookie("_sales24JWT")
+          window.location = 'index1.html';
+        })
+      }).catch((err) => {
+        alert("Something went wrong. Please login Again")
+        delete_cookie("_sales24JWT")
+        window.location = 'login.html';
+      })
+      logout_operation()
+    }
+  }
+
+
+  function logoutAll() {
+    var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
+    if (logoutAll_confirm) {
+      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
+      document.getElementById("loader").style.display = "block";
+      var logoutAll_operation = async () => await fetch(url, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/text',
+          'Authorization': user_data.Token
+        }
+      }).then((res) => {
+        return res.text().then((data) => {
+          alert("You Have successfully Logged out of all devices.")
+          delete_cookie("_sales24JWT")
+          window.location = 'index1.html';
+        })
+      }).catch((err) => {
+        alert("Something went wrong. Please login Again")
+        delete_cookie("_sales24JWT")
+        window.location = 'login.html';
+      })
+      logoutAll_operation()
+    }
+  }
+
+
+  var postAdForm = document.getElementById("postAdForm")
+
+  postAdForm.addEventListener('submit', async (e) => {
+    var productName = document.getElementById('productName').value
+    var productDescription = document.getElementById('productDescription').value
+    var productCategory = document.getElementById('productCategory').value
+    var productPrice = document.getElementById('productPrice').value
+    var productLocation = document.getElementById('productLocation').value
+    var input = document.querySelector('input[type=file]');
+    var file = input.files[0],
+      reader = new FileReader();
+
+    var productImage = "";
+    document.getElementById("postAdForm").style.display = "none"
+    document.getElementById("loader").style.display = "block";
+    function image() {
+      return new Promise((resolve, reject) => {
+        reader.onloadend = function () {
+          alert("in base64")
+          // Since it contains the Data URI, we should remove the prefix and keep only Base64 string
+          var b64 = reader.result.replace(/^data:.+;base64,/, '');
+          //console.log(b64); //-> "R0lGODdhAQABAPAAAP8AAAAAACwAAAAAAQABAAACAkQBADs="
+          resolve(b64)
+        }
+        reader.readAsDataURL(file)
+      })
+    };
+
+    var image_data = await image().then((res) => productImage = res)
+    var postUrl = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/postad"
+    var post_product = (async () => {
+      var body = {
+        productName,
+        productDescription,
+        productCategory,
+        productPrice,
+        productLocation,
+        productImage
+      }
+      document.getElementById("postAdForm").style.display = "none"
+      document.getElementById("loader").style.display = "block";
+
+      await fetch(postUrl, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'POST',
+        'body': JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/text',
+          'Authorization': user_data.Token,
+        }
+      }).then((res) => {
+        if (res.statusCode == 400) {
+          alert("Something went wrong please try again.")
+          document.getElementById("postAdForm").style.display = "block"
+          document.getElementById("loader").style.display = "none";
+          return;
+        }
+        return res.text().then((data) => {
+          alert("Add posted successfully.")
+          window.location = 'index.html'
+        })
+
+      }).catch((err) => {
+        alert("Something went wrong. Please try again.")
+        document.getElementById("postAdForm").style.display = "block"
+        document.getElementById("loader").style.display = "none";
+        return;
+
+      })
+    })
+    await post_product()
+  })
+
+
+</script>
+
+</html>

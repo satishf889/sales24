@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="images/favicon.png" />
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+	<style>
+		/* Center the loader */
+		#loader {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			z-index: 1;
+			width: 150px;
+			height: 150px;
+			margin: -75px 0 0 -75px;
+			border: 16px solid #f3f3f3;
+			border-radius: 50%;
+			border-top: 16px solid #3498db;
+			width: 120px;
+			height: 120px;
+			-webkit-animation: spin 2s linear infinite;
+			animation: spin 2s linear infinite;
+		}
+
+		@-webkit-keyframes spin {
+			0% {
+				-webkit-transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+			}
+		}
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		/* Add animation to "page content" */
+		.animate-bottom {
+			position: relative;
+			-webkit-animation-name: animatebottom;
+			-webkit-animation-duration: 1s;
+			animation-name: animatebottom;
+			animation-duration: 1s
+		}
+
+		@-webkit-keyframes animatebottom {
+			from {
+				bottom: -100px;
+				opacity: 0
+			}
+
+			to {
+				bottom: 0px;
+				opacity: 1
+			}
+		}
+
+		@keyframes animatebottom {
+			from {
+				bottom: -100px;
+				opacity: 0
+			}
+
+			to {
+				bottom: 0;
+				opacity: 1
+			}
+		}
+
+		#myDiv {
+			display: none;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body style="margin:0;">
+	<div id="loader" style="display: none;"></div>
+	<div class="limiter" id="content">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+				<form class="login100-form validate-form" method="post" id="login-form">
+					<span class="login100-form-title p-b-33">
+						Account Login
+					</span>
+
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" id="username" name="username" placeholder="username">
+						<span class="focus-input100-1"></span>
+						<span class="focus-input100-2"></span>
+					</div>
+					<div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
+						<input class="input100" id="password" type="password" name="pass" placeholder="Password">
+						<span class="focus-input100-1"></span>
+						<span class="focus-input100-2"></span>
+					</div>
+
+					<p id="loginError" style="display:none;color: red;"></p>
+
+					<div class="container-login100-form-btn m-t-20">
+						<button id="loginButton" class="login100-form-btn">
+							Sign in
+						</button>
+					</div>
+
+					<div class="text-center p-t-45 p-b-4">
+						<span class="txt1">
+							Forgot
+						</span>
+
+						<a href="#" class="txt2 hov1">
+							Username / Password?
+						</a>
+					</div>
+
+					<div class="text-center">
+						<span class="txt1">
+							Create an account?
+						</span>
+
+						<a href="register.html" class="txt2 hov1">
+							Sign up
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="vendor/select2/select2.min.js"></script>
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+		function writeCookie(name, value, days) {
+			var date, expires;
+			if (days) {
+				date = new Date();
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+				expires = "; expires=" + date.toGMTString();
+			} else {
+				expires = "";
+			}
+			document.cookie = name + "=" + value + expires + "; path=/";
+		}
+
+		function readCookie(name) {
+			var i, c, ca, nameEQ = name + "=";
+			ca = document.cookie.split(';');
+			for (i = 0; i < ca.length; i++) {
+				c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1, c.length);
+				}
+				if (c.indexOf(nameEQ) == 0) {
+					return c.substring(nameEQ.length, c.length);
+				}
+			}
+			return '';
+		}
+		if (readCookie("_sales24JWT")) {
+			window.location = 'index.html';
+		}
+
+		var myVar;
+		var form = document.getElementById("login-form")
+
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+			var username = document.getElementById("username").value
+			var password = document.getElementById("password").value
+
+			//console.log(username)
+			if (username == '' || password == '') {
+				return;
+			}
+			if (username.length < 6) {
+				alert("Username cannot be less than 6 characters")
+				return;
+			}
+
+			const url = 'https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/login';
+			const data = { username, password };
+
+			(async () => {
+				document.getElementById("login-form").style.display = "none"
+				document.getElementById("loader").style.display = "block";
+				await fetch(url, {
+					Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+					method: 'POST', // or 'PUT'
+					body: JSON.stringify(data), // data can be `string` or {object}!
+					headers: {
+						'Content-Type': 'application/text',
+					}
+				}).then((res) => {
+					if (res.status == 400) {
+						document.getElementById("loader").style.display = "block";
+						return res.text().then((data) => {
+							document.getElementById("loader").style.display = "none";
+							document.getElementById("login-form").style.display = "block"
+							document.getElementById("loginError").style.display = "block";
+							document.getElementById("loginError").innerHTML = data;
+						});
+					}
+					return res.text().then((data) => {
+						document.getElementById("login-form").style.display = "none";
+						document.getElementById("loader").style.display = "block"
+						data = JSON.parse(data)
+						var JWTdata = JSON.stringify({ "Token": data.Token, "username": username, "lastLogin": data.Last_Login })
+						writeCookie("_sales24JWT", JWTdata, 2)
+						window.location = 'index.html';
+					})
+				})
+					.catch((err) => {
+						alert("Something Went Wrong. Try again.")
+						document.getElementById("loader").style.display = "none";
+						document.getElementById("login-form").style.display = "block"
+						console.log(err)
+					})
+
+			})()
+		})
+	</script>
+
+</body>
+
+</html>
