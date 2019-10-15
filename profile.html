@@ -188,9 +188,9 @@
                 return c.substring(nameEQ.length, c.length);
             }
         }
-        return '';
+        return 'None';
     }
-    if (readCookie("_sales24JWT") == '') {
+    if (readCookie("_sales24JWT") == 'None') {
         window.location = 'login.html';
     }
 

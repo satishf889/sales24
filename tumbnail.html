@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
+<body>
+<!-- Page Content -->
+<div class="container">
+
+  <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Thumbnail Gallery</h1>
+
+  <hr class="mt-2 mb-5">
+
+  <div class="row text-center text-lg-left" id="mainHead">
+
+    
+</div>
+<!-- /.container -->
+</body>
+<script>
+
+var generateCard= async function(id){
+
+var elem = document.createElement('div');
+    elem.className="col-lg-3 col-md-4 col-6"
+    var anch=document.createElement('a');
+    anch.id="xyz"
+    anch.className="d-block mb-4 h-100"
+    anch.href="#"
+    
+
+    var second_div=document.createElement('div')
+    second_div.className="card"
+    
+    var second_para=document.createElement('p')
+    second_para.innerHTML="Bag".italics()
+    second_para.className="text-lg-center"
+   
+
+    var image=document.createElement('img')
+    image.className="img-fluid img-thumbnail"
+    image.id=id
+    image.onload=image_data(image.id)
+
+    var third_para=document.createElement('p')
+    third_para.className="text-lg-center"
+    third_para.innerHTML="&#x20b9 24".bold()
+
+    
+    second_div.appendChild(second_para)
+    second_div.appendChild(image)
+    
+    second_div.appendChild(third_para)
+
+    anch.appendChild(second_div)
+    elem.appendChild(anch)
+
+    document.getElementById("mainHead").appendChild(elem)
+    console.log(elem)
+}
+
+var image_data= async function(id){
+            var url="https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/getimage"
+       fetch(url).then((res)=>{
+           return res.text().then((data)=>{
+               console.log(data)
+               document.getElementById(id).src=data
+           }).catch((err)=>
+            console.log("error converting data"))
+        }).catch((err)=>{
+            alert(err)
+            console.log(err)
+        })}
+
+
+generateCard("xyz1")
+generateCard("xyz2")
+generateCard("xyz3")
+generateCard("xyz4")
+</script>
+</html>

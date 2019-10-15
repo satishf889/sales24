@@ -216,9 +216,9 @@
         return c.substring(nameEQ.length, c.length);
       }
     }
-    return '';
+    return 'None';
   }
-  if (readCookie("_sales24JWT") == '') {
+  if (readCookie("_sales24JWT") == 'None') {
     window.location = 'login.html';
   }
 
@@ -304,7 +304,6 @@
     function image() {
       return new Promise((resolve, reject) => {
         reader.onloadend = function () {
-          alert("in base64")
           // Since it contains the Data URI, we should remove the prefix and keep only Base64 string
           var b64 = reader.result.replace(/^data:.+;base64,/, '');
           //console.log(b64); //-> "R0lGODdhAQABAPAAAP8AAAAAACwAAAAAAQABAAACAkQBADs="

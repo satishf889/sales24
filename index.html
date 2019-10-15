@@ -158,12 +158,12 @@ function readCookie(name) {
             return c.substring(nameEQ.length, c.length);
         }
     }
-    return '';
+    return 'None';
 }
 var delete_cookie = function (name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 };
-if (readCookie("_sales24JWT") == '') {
+if (readCookie("_sales24JWT") == 'None') {
     window.location = 'login.html';
 }
 
