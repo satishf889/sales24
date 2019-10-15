@@ -111,7 +111,7 @@
           <ul class="dropdown-menu">
             <li><a href="profile.html">Profile</a></li>
             <li><a href="#">Post AD</a></li>
-            <li><a href="#">AD's Posted</a></li>
+            <li><a href="adsPosted.html">AD's Posted</a></li>
             <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
             <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
           </ul>
@@ -159,6 +159,16 @@
             </select>
           </div>
         </div>
+
+         <!-- Text input-->
+         <div class="form-group">
+            <label class="col-md-4 control-label" for="productBrand">Product Brand</label>
+            <div class="col-md-4">
+              <input id="productBrand" name="productBrand" type="text" placeholder="productBrand"
+                class="form-control input-md" required="">
+  
+            </div>
+          </div>
 
         <!-- Text input-->
         <div class="form-group">
@@ -344,7 +354,7 @@
         }
         return res.text().then((data) => {
           alert("Add posted successfully.")
-          window.location = 'index.html'
+          window.location = 'adsPosted.html'
         })
 
       }).catch((err) => {

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>SALES24</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+    <style>
+        p {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .border-primary {
+            border: 1px solid grey;
+        }
+
+        .w3-card-4 {
+            object-fit: cover;
+        }
+
+        img {
+            width: 100% !important;
+            height: 200px !important;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            /* Gray border */
+            border-radius: 4px;
+            /* Rounded border */
+            padding: 5px;
+            /* Some padding */
+            width: 150px;
+            /* Set a small width */
+            object-fit: cover;
+        }
+
+        /* Center the loader */
+        #loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Add animation to "page content" */
+        .animate-bottom {
+            position: relative;
+            -webkit-animation-name: animatebottom;
+            -webkit-animation-duration: 1s;
+            animation-name: animatebottom;
+            animation-duration: 1s
+        }
+
+        @-webkit-keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0px;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
+
+        #myDiv {
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loader" style="display: none;"></div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">SALES24.com</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="#">DEALS</a></li>
+                <li><a href="#">ABOUT</a></li>
+                <li><a href="#">CONTACT</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="navbar-text" id="lastLogin"></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" href="#"
+                        role="button" aria-haspopup="true" aria-expanded="false">
+                        Hi,User
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="postAd.html">Post AD</a></li>
+                        <li><a href="#">AD's Posted</a></li>
+                        <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
+                        <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" id="content">
+        <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">ADs Posted</h1>
+        <h3><b id="totalAds"></b></h3>
+        <hr class="mt-2 mb-5">
+
+        <div class="row text-center text-lg-left" id="mainHead">
+                <p class="text-lg-center" id="noAds" style="display: none;"><i>Ads Posted Yet.</i><a href="postAd.html" style="color: royalblue;">Post AD</a></p>
+        </div>
+            <br>
+                  <button id="closeButton" name="closeButton" class="btn btn-primary" style="margin:0 auto;
+                  display:block;">Close</button>
+
+</body>
+<script>
+    document.getElementById('closeButton').onclick = function(){
+        window.location="index.html"
+    };
+
+    var myIndex = 0;
+    function readCookie(name) {
+        var i, c, ca, nameEQ = name + "=";
+        ca = document.cookie.split(';');
+        for (i = 0; i < ca.length; i++) {
+            c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) == 0) {
+                return c.substring(nameEQ.length, c.length);
+            }
+        }
+        return 'None';
+    }
+    var delete_cookie = function (name) {
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    };
+    if (readCookie("_sales24JWT") == 'None') {
+        window.location = 'login.html';
+    }
+
+    var user_data = JSON.parse(readCookie("_sales24JWT"))
+    document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
+        document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
+
+    function logout() {
+        var logout_confirm = confirm("Do you wish to logout?")
+        if (logout_confirm) {
+            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
+            document.getElementById("loader").style.display = "block";
+            var logout_operation = async () => await fetch(url, {
+                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/text',
+                    'Authorization': user_data.Token
+                }
+            }).then((res) => {
+                return res.text().then((data) => {
+                    alert("You Have successfully Logged out of current session.")
+                    delete_cookie("_sales24JWT")
+                    window.location = 'index1.html';
+                })
+            }).catch((err) => {
+                alert("Something went wrong. Please login Again")
+                delete_cookie("_sales24JWT")
+                window.location = 'login.html';
+            })
+            logout_operation()
+        }
+    }
+
+
+    function logoutAll() {
+        var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
+        if (logoutAll_confirm) {
+            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
+            document.getElementById("loader").style.display = "block";
+            var logoutAll_operation = async () => await fetch(url, {
+                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/text',
+                    'Authorization': user_data.Token
+                }
+            }).then((res) => {
+                return res.text().then((data) => {
+                    alert("You Have successfully Logged out of all devices.")
+                    delete_cookie("_sales24JWT")
+                    window.location = 'index1.html';
+                })
+            }).catch((err) => {
+                alert("Something went wrong. Please login Again")
+                delete_cookie("_sales24JWT")
+                window.location = 'login.html';
+            })
+            logoutAll_operation()
+        }
+    }
+
+    var generateCard = async function (id, name, desc, price) {
+
+        var elem = document.createElement('div');
+        elem.className = "col-lg-3 col-md-4 col-6"
+        var anch = document.createElement('a');
+        anch.id = "id"
+        anch.className = "d-block mb-4 h-100"
+        anch.href = "#"
+
+
+        var second_div = document.createElement('div')
+        second_div.className = "w3-card-4"
+
+        var second_para = document.createElement('p')
+        second_para.innerHTML = name + "".italics()
+        second_para.className = "text-lg-center"
+
+
+        var image = document.createElement('img')
+        image.className = "w3-image"
+        image.id = id
+        image.onload = image_data(image.id)
+        image.alt = "avatar"
+
+        var third_para = document.createElement('p')
+        third_para.className = "text-lg-center"
+        third_para.innerHTML = desc
+
+        var fourth_para = document.createElement('p')
+        fourth_para.className = "text-lg-center"
+        fourth_para.innerHTML = "&#x20b9 " + price.bold()
+
+        second_div.appendChild(second_para)
+        second_div.appendChild(image)
+        second_div.appendChild(third_para)
+        second_div.appendChild(fourth_para)
+
+        anch.appendChild(second_div)
+        elem.appendChild(anch)
+
+        document.getElementById("mainHead").appendChild(elem)
+    }
+
+    var image_data = async function (key) {
+        var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/getimage"
+        fetch(url, {
+            Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify({ key }),
+            headers: {
+                'Authorization': user_data.Token
+            }
+        }).then((res) => {
+            return res.text().then((data) => {
+                document.getElementById(key).src = data
+            }).catch((err)=>{
+                return err
+            })})
+    .catch((err) => {
+            alert("Something went wrong.Please login again.")
+            delete_cookie("_sales24JWT")
+            window.location="login.html"
+        })
+    }
+
+    var ads_posted = async () => {
+        var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/retrieveads"
+        document.getElementById("mainHead").style.display = "none"
+        document.getElementById("loader").style.display = "block";
+        await fetch(url, {
+            Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+            method: 'GET', // or 'PUT'
+            headers: {
+                'Authorization': user_data.Token
+            }
+        }).then((res) => {
+            if (res.status == 400) {
+                document.getElementById("loader").style.display = "block";
+                return res.text().then((data) => {
+                    alert("Something went wrong. Please try again.")
+                    document.getElementById("loader").style.display = "none";
+                    document.getElementById("mainhead").style.display = "block"
+                });
+            }
+            return res.text().then((data) => {
+                document.getElementById("mainHead").style.display = "none";
+                document.getElementById("loader").style.display = "block"
+                
+                var total_data = JSON.parse(data)
+                document.getElementById("totalAds").innerHTML="You have posted "+total_data.length+" Ads."
+                if(total_data.length==0){
+                    
+                    document.getElementById("mainHead").style.display = "block";
+                document.getElementById("loader").style.display = "none"
+                document.getElementById("noAds").style.display="block"
+                    return;
+                }
+                for (var i = 0; i < total_data.length; i++) {
+                    generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].DESCRIPTION, total_data[i].PRICE)
+                    if (i == total_data.length - 1) {
+                        document.getElementById("mainHead").style.display = "block";
+                        document.getElementById("loader").style.display = "none"
+                    }
+                }
+            })
+        })
+            .catch((err) => {
+                alert("Something Went Wrong. Please login again.")
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("mainHead").style.display = "block"
+                delete_cookie("_sales24JWT")
+                window.location = "login.html"
+            })
+
+    }
+    ads_posted()
+
+</script>
+
+</html>
