@@ -1,115 +1,61 @@
-const AWS = require('aws-sdk');
-//const uuid=require('uuid/v1')
-var s3 = new AWS.S3();
+const AWS = require('aws-sdk')
 const dynamoDb = new AWS.DynamoDB.DocumentClient({
     region: 'us-east-1'
 });
 
 exports.handler = async (event) => {
-    var location;
-    var ETAG;
-    var s3_upload = false;
-    var dynamo_upload = false;
-    console.log("Event is ", event)
-    var body = JSON.parse(event.body)
-    console.log("Body recived: ", body)
+    console.log("Event recived: ", event)
     var user_info = event.requestContext.authorizer.user
     console.log("User info is :", user_info)
     user_info = JSON.parse(user_info)
-    var encodedImage = body.productImage;
-    var ad_number = user_info.TOTAL_AD_POSTED
-    ad_number = ad_number + 1
-    console.log(encodedImage)
-    var decodedImage = Buffer.from(encodedImage, 'base64');
-    var AD_KEY = ad_number + ".jpg"
-    var filePath = user_info.USERNAME + "/AD" + ad_number + "/" + AD_KEY
+    event = JSON.parse(event.body)
     var params = {
-        "Body": decodedImage,
-        "Bucket": "sale24dev",
-        "Key": filePath
-    };
-    await s3.upload(params).promise().then((res) => {
-        console.log("Response is: ", res)
-        location = res.Location
-        ETAG = res.ETag.replace(/['"]+/g, '')
-        s3_upload = true
-    })
-        .catch((err) => {
-            console.log("Error is: ", err)
-        })
-    if (s3_upload) {
-        var datetime = new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Calcutta'
-        });
-        console.log("Time is: " + datetime)
-        var ad_params = {
-            Item: {
-                "USERNAME": user_info.USERNAME,
-                "S3_LOCATION": location,
-                "AD_KEY": filePath,
-                ETAG,
-                "DESCRIPTION": body.productDescription,
-                "LOCATION": body.productLocation,
-                "CATEGORY": body.productCategory,
-                "PRODUCT_NAME": body.productName,
-                "PRICE": body.productPrice,
-                "TIME_POSTED": datetime,
-                "STATUS": "Active"
-            },
-            ReturnValues: "ALL_OLD",
-            TableName: "ADVERTISEMENT"
-        };
-        console.log("Params prepared are ", ad_params)
-        await dynamoDb.put(ad_params).promise()
-            .then((res) => {
-                console.log(res)
-                console.log("Successful entry in Dynamo")
-                dynamo_upload = true
-            })
-            .catch((err) => {
-                console.log("Error is ", err)
-            })
+        Key: {
+            USERNAME: user_info.USERNAME,
+            AD_KEY: event.AD_KEY,
+        },
+        ProjectionExpression: 'PRODUCT_CATEGORY,PRODUCT_NAME,DESCRIPTION,PRODUCT_PRICE,PRODUCT_LOCATION,PRODUCT_STATUS,PRODUCT_TIME_POSTED,AD_KEY',
+        TableName: 'ADVERTISEMENT',
     }
-    var response;
-    if (s3_upload && dynamo_upload) {
-        var update_params = {
-            TableName: "USER_INFO",
-            Key: {
-                "USERNAME": user_info.USERNAME
-            },
-            UpdateExpression: "SET TOTAL_AD_POSTED = TOTAL_AD_POSTED + :p",
-            ExpressionAttributeValues: {
-                ":p": 1,
-            },
-            ReturnValues: "UPDATED_NEW"
-        }
-        console.log("Updated params for user table are: ", update_params)
-        await dynamoDb.update(update_params).promise()
-            .then((res) => {
-                console.log("Update User Info: ", user_info)
-            })
-            .catch((err) => {
-                console.log("Encountered Below Error in updating User Table: ", err)
-                return;
-            })
-        response = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json",
-            },
-            statusCode: 200,
-            body: "AD successfully posted"
-        }
-    } else {
-        response = {
+
+    const result = await dynamoDb.get(params).promise()
+        .then((res) => {
+            console.log("Dynamo Response is :", res)
+            return res.Item
+        })
+        .catch((err) => {
+            console.log(err)
+            return "Something went wrong."
+        })
+
+    if (result.length < 1) {
+        return {
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json",
             },
             statusCode: 400,
-            body: "Failed to post AD"
+            body: JSON.stringify("No Such Ad found")
         }
     }
-    console.log("Response is: ", response)
-    return response
+
+    if (result == "Something went wrong.") {
+        return {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
+            },
+            statusCode: 500,
+            body: JSON.stringify(result)
+        }
+    }
+    const response = {
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+        },
+        statusCode: 200,
+        body: JSON.stringify(result),
+    };
+    return response;
 };

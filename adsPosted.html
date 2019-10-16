@@ -255,8 +255,7 @@
         var anch = document.createElement('a');
         anch.id = "id"
         anch.className = "d-block mb-4 h-100"
-        anch.href = "#"
-
+        anch.href="adDetail.html?AD_ID="+id
 
         var second_div = document.createElement('div')
         second_div.className = "w3-card-4"
@@ -287,6 +286,7 @@
 
         anch.appendChild(second_div)
         elem.appendChild(anch)
+        
 
         document.getElementById("mainHead").appendChild(elem)
     }
@@ -311,6 +311,11 @@
             delete_cookie("_sales24JWT")
             window.location="login.html"
         })
+    }
+
+    function adDetail(id){
+        alert(id)
+        return true;
     }
 
     var ads_posted = async () => {
@@ -346,7 +351,7 @@
                     return;
                 }
                 for (var i = 0; i < total_data.length; i++) {
-                    generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].DESCRIPTION, total_data[i].PRICE)
+                    generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE)
                     if (i == total_data.length - 1) {
                         document.getElementById("mainHead").style.display = "block";
                         document.getElementById("loader").style.display = "none"
