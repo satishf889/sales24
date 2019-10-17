@@ -8,8 +8,40 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <style>
+        hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 96%;               
+  background-color:grey;
+  height: 1px;
+}
+        .border-primary {
+            border: 1px solid grey;
+        }
+
+        .w3-card-4 {
+            object-fit: cover;
+        }
+
+        .w3-image{
+            width: 100% !important;
+            height: 200px !important;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            /* Gray border */
+            border-radius: 4px;
+            /* Rounded border */
+            padding: 5px;
+            /* Some padding */
+            width: 150px;
+            /* Set a small width */
+            object-fit: cover;
+        }
         /* Center the loader */
         #loader {
             position: absolute;
@@ -127,7 +159,14 @@
             <img class="mySlides" src="images/slider/3.png" style="width:100%;height:100%">
             <img class="mySlides" src="images/slider/4.jpg" style="width:100%;height:100%">
         </div>
-        <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Begin now by posting the AD.</h1>
+        <br>
+        <h3 class="font-weight-light mt-4 mb-0"><b>Recently Posted ADs</b></h3>
+        <hr color="grey">
+        <div class="row text-center text-lg-left" id="mainHead">
+                <p class="text-lg-center" id="noAds" style="display: none;"><i>Ads Posted Yet.</i><a href="postAd.html" style="color: royalblue;">Post AD</a></p>
+        </div>
+            <br>
+                  <button id="closeButton" name="closeButton" class="btn btn-primary" style="float:right;">See More</button>
     </div>
 
 </body>
@@ -226,5 +265,133 @@ function logoutAll() {
         logoutAll_operation()
     }
 }
+
+var generateCard = async function (id, name, desc, price,location) {
+
+var elem = document.createElement('div');
+elem.className = "col-lg-3 col-md-4 col-6"
+var anch = document.createElement('a');
+anch.id = "id"
+anch.className = "d-block mb-4 h-100"
+anch.href="adDetail.html?AD_ID="+id
+
+var second_div = document.createElement('div')
+second_div.className = "w3-card-4"
+
+var second_para = document.createElement('p')
+second_para.innerHTML = name + "".italics()
+second_para.className = "text-lg-center"
+
+
+var image = document.createElement('img')
+image.className = "w3-image"
+image.id = id
+image.onload = image_data(image.id)
+image.alt = "avatar"
+
+var third_para = document.createElement('p')
+third_para.className = "text-lg-center"
+third_para.innerHTML = desc
+
+var fourth_para = document.createElement('p')
+fourth_para.className = "text-lg-center fa"
+fourth_para.innerHTML = "&#xf041;  "+location.bold()
+
+
+var fifth_para = document.createElement('p')
+fifth_para.className = "text-lg-center"
+fifth_para.innerHTML = "&#x20b9 " + price.bold()
+
+
+second_div.appendChild(second_para)
+second_div.appendChild(image)
+second_div.appendChild(third_para)
+second_div.appendChild(fourth_para)
+second_div.appendChild(fifth_para)
+
+anch.appendChild(second_div)
+elem.appendChild(anch)
+
+
+document.getElementById("mainHead").appendChild(elem)
+}
+
+var image_data = async function (key) {
+var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/getimage"
+fetch(url, {
+    Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+    method: 'POST', // or 'PUT'
+    body: JSON.stringify({ key }),
+    headers: {
+        'Authorization': user_data.Token
+    }
+}).then((res) => {
+    return res.text().then((data) => {
+        document.getElementById(key).src = data
+    }).catch((err)=>{
+        return err
+    })})
+.catch((err) => {
+    alert("Something went wrong.Please login again.")
+    delete_cookie("_sales24JWT")
+    window.location="login.html"
+})
+}
+
+var ads_posted = async () => {
+        var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/recentlypostedads"
+        document.getElementById("mainHead").style.display = "none"
+        document.getElementById("loader").style.display = "block";
+        await fetch(url, {
+            Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Authorization': user_data.Token
+            }
+        }).then((res) => {
+            if (res.status == 400) {
+                document.getElementById("loader").style.display = "block";
+                return res.text().then((data) => {
+                    alert("Something went wrong. Please try again.")
+                    document.getElementById("loader").style.display = "none";
+                    document.getElementById("mainhead").style.display = "block"
+                });
+            }
+            return res.text().then((data) => {
+                document.getElementById("mainHead").style.display = "none";
+                document.getElementById("loader").style.display = "block"
+                
+                var total_data = JSON.parse(data)
+                console.log(total_data)
+                if(total_data.length==0){
+                    
+                    document.getElementById("mainHead").style.display = "block";
+                document.getElementById("loader").style.display = "none"
+                document.getElementById("noAds").style.display="block"
+                    return;
+                }
+                for (var i = 0; i < total_data.length; i++) {
+                    generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE,total_data[i].PRODUCT_LOCATION)
+                    console.log(i)
+                    if(i == total_data.length-1){
+                        document.getElementById("mainHead").style.display = "block";
+                        document.getElementById("loader").style.display = "none"
+                    }
+                    if (i == 3) {
+                        document.getElementById("mainHead").style.display = "block";
+                        document.getElementById("loader").style.display = "none"
+                        break;
+                    }
+                }
+            })
+        })
+            .catch((err) => {
+                alert("Something Went Wrong. Please login again.")
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("mainHead").style.display = "block"
+            })
+
+    }
+ads_posted()
 </script>
 </html>
