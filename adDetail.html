@@ -216,7 +216,8 @@
                 <label class="col-md-4 control-label" for="button1id"></label>
                 <div class="col-md-8">
                     <button id="editButton" name="editButton" class="btn btn-primary">Edit</button>
-                    <button id="submitButton" name="submitButton" class="btn btn-success" style="display: none;">Submit</button>
+                    <button id="submitButton" name="submitButton" class="btn btn-success"
+                        style="display: none;">Submit</button>
                     <button id="closeButton" name="closeButton" class="btn btn-primary">Close</button>
                 </div>
             </div>
@@ -224,22 +225,22 @@
 </body>
 <script>
 
-    document.getElementById('editButton').addEventListener('click',(e)=>{
+    document.getElementById('editButton').addEventListener('click', (e) => {
         e.preventDefault()
-        document.getElementById('editButton').style.display="none"
-        document.getElementById('closeButton').style.display="none"
-        document.getElementById('formField').disabled=false
-        document.getElementById('submitButton').style.display="block"
+        document.getElementById('editButton').style.display = "none"
+        document.getElementById('closeButton').style.display = "none"
+        document.getElementById('formField').disabled = false
+        document.getElementById('submitButton').style.display = "block"
     })
 
-    document.getElementById('submitButton').addEventListener('click',(e)=>{
+    document.getElementById('submitButton').addEventListener('click', (e) => {
         e.preventDefault()
-        window.location.reload(true); 
+        window.location.reload(true);
     })
 
-    document.getElementById('closeButton').addEventListener('click',(e)=>{
+    document.getElementById('closeButton').addEventListener('click', (e) => {
         e.preventDefault()
-        window.location='adsPosted.html' 
+        window.location = 'adsPosted.html'
     })
 
     function readCookie(name) {
@@ -350,7 +351,7 @@
                     return;
                 }
                 data = JSON.parse(data)
-                image_data(data.AD_KEY, 'productImage')
+                document.getElementById('productImage').src = data.S3_LOCATION
                 document.getElementById('pageTitle').innerHTML = data.PRODUCT_NAME
                 document.getElementById('productName').value = data.PRODUCT_NAME
                 document.getElementById('productDescription').value = data.PRODUCT_DESCRIPTION
@@ -373,34 +374,69 @@
             })
     }
 
-    var image_data = async function (key, id) {
-        var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/getimage"
-        fetch(url, {
-            Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify({ key }),
-            headers: {
-                'Authorization': user_data.Token
-            }
-        }).then((res) => {
-            return res.text().then((data) => {
-                document.getElementById(id).src = data
-            }).catch((err) => {
-                return err
-            })
-        })
-            .catch((err) => {
-                alert("Something went wrong.Please login again.")
-                delete_cookie("_sales24JWT")
-                window.location = "login.html"
-            })
-    }
-
-
     const params = new URLSearchParams(document.location.search);
     const adId = params.get("AD_ID");
     adDetail(adId)
+    var ads_posted = async () => {
+var body="";
+if(sessionStorage.getItem('lastSearchedKey')){
+  body=JSON.stringify({"lastScannedIndex":JSON.parse(sessionStorage.getItem('lastSearchedKey'))})
+  sessionStorage.removeItem("lastSearchedKey");
+}
+var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/recentlypostedads"
+document.getElementById("mainHead").style.display = "none"
+document.getElementById("loader").style.display = "block";
+await fetch(url, {
+    Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+    method: 'POST', // or 'PUT',
+    body
+}).then((res) => {
+    if (res.status == 400) {
+        document.getElementById("loader").style.display = "block";
+        return res.text().then((data) => {
+            alert("Something went wrong. Please try again.")
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("mainhead").style.display = "block"
+        });
+    }
+    return res.text().then((data) => {
+        document.getElementById("mainHead").style.display = "none";
+        document.getElementById("loader").style.display = "block"
+        console.log(data)
+        var total_data = JSON.parse(data)
+        console.log(total_data)
+        if(total_data.LAST_KEY){
+          sessionStorage.setItem('lastSearchedKey',JSON.stringify(total_data.LAST_KEY))
+        }
+        total_data = total_data.ITEMS
+        if (total_data.length == 0) {
+            document.getElementById("mainHead").style.display = "block";
+            document.getElementById("loader").style.display = "none"
+            document.getElementById("noAds").style.display = "block"
+            return;
+        }
+        for (var i = 0; i < total_data.length; i++) {
+            generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION)
+            console.log(i)
+            if (i == total_data.length - 1) {
+                document.getElementById("mainHead").style.display = "block";
+                document.getElementById("loader").style.display = "none"
+            }
+            if (i == 3) {
+                document.getElementById("mainHead").style.display = "block";
+                document.getElementById("loader").style.display = "none"
+                break;
+            }
+        }
+    })
+})
+    .catch((err) => {
+        alert("Something Went Wrong. Please login again.")
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("mainHead").style.display = "block"
+    })
 
+}
 </script>
 
 </html>

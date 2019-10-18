@@ -238,7 +238,8 @@
 						var JWTdata = JSON.stringify({ "Token": data.Token, "username": username, "lastLogin": data.Last_Login })
 						delete_cookie("_sales24JWT")
 						writeCookie("_sales24JWT", JWTdata, 2)
-						window.location = 'index.html';
+						var url=sessionStorage.getItem('requestURL')
+						window.location = url;
 					})
 				})
 					.catch((err) => {
