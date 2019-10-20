@@ -186,7 +186,7 @@
 			return '';
 		}
 		if (readCookie("_sales24JWT")) {
-			window.location = 'index.html';
+			window.location = 'index1.html';
 		}
 		var delete_cookie = function (name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -238,7 +238,11 @@
 						var JWTdata = JSON.stringify({ "Token": data.Token, "username": username, "lastLogin": data.Last_Login })
 						delete_cookie("_sales24JWT")
 						writeCookie("_sales24JWT", JWTdata, 2)
-						var url=sessionStorage.getItem('requestURL')
+						var url=sessionStorage.getItem('requestedURL')
+						sessionStorage.removeItem('requestedURL')
+						if(url==null){
+							url="index1.html"
+						}
 						window.location = url;
 					})
 				})

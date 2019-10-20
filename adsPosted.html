@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <style>
+         body{
+      background-color: #EBEDEF ;
+    }
         p {
             overflow: hidden;
             white-space: nowrap;
@@ -18,10 +21,13 @@
 
         .border-primary {
             border: 1px solid grey;
+            padding: 20px;
         }
 
         .w3-card-4 {
             object-fit: cover;
+            margin: 5px;
+            padding:5px
         }
 
         img {
@@ -149,14 +155,25 @@
         </div>
     </nav>
 
-    <div class="container" id="content">
+    <div class="container border-primary" id="content" style="background-color: ivory;">
         <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">ADs Posted</h1>
         <h3><b id="totalAds"></b></h3>
         <hr class="mt-2 mb-5">
 
         <div class="row text-center text-lg-left" id="mainHead">
+                <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100"
+                    href="#">
+                    <div class="w3-card-4">
+                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image"
+                            id="id" src="images/logo.png"
+                            alt="images/logo.png">
+                        <p class="text-lg-center">PRODUCT DESCRIPTION</p>
+                        <p class="text-lg-center">₹ <b>PRICE</b></p>
+                    </div>
+                </a>
                 <p class="text-lg-center" id="noAds" style="display: none;"><i>Ads Posted Yet.</i><a href="postAd.html" style="color: royalblue;">Post AD</a></p>
-        </div>
+                </div>
+            </div>
             <br>
                   <button id="closeButton" name="closeButton" class="btn btn-primary" style="margin:0 auto;
                   display:block;">Close</button>
@@ -298,7 +315,7 @@
 
     var ads_posted = async () => {
         var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/retrieveads"
-        document.getElementById("mainHead").style.display = "none"
+        document.getElementById("mainHead").style.display = "block"
         document.getElementById("loader").style.display = "block";
         await fetch(url, {
             Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
@@ -316,7 +333,7 @@
                 });
             }
             return res.text().then((data) => {
-                document.getElementById("mainHead").style.display = "none";
+                document.getElementById("mainHead").style.display = "block";
                 document.getElementById("loader").style.display = "block"
                 
                 var total_data = JSON.parse(data)
@@ -328,6 +345,7 @@
                 document.getElementById("noAds").style.display="block"
                     return;
                 }
+                document.getElementById("mainHead").innerHTML=""
                 for (var i = 0; i < total_data.length; i++) {
                     generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE,total_data[i].S3_LOCATION)
                     if (i == total_data.length - 1) {

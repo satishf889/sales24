@@ -10,7 +10,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="icon" type="image/png" href="images/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+        body{
+      background-color: #EBEDEF ;
+    }
         hr {
             border: 0;
             clear: both;
@@ -27,10 +31,13 @@
 
         .border-primary {
             border: 1px solid grey;
+            padding: 20px;
         }
 
         .w3-card-4 {
             object-fit: cover;
+            margin: 5px;
+            padding:5px
         }
 
         img {
@@ -162,12 +169,22 @@
         </div>
     </nav>
 
-    <div class="container" id="content">
+    <div class="container border-primary" id="content" style="background-color: ivory;">
         <button id="closeButton" name="recentltPostedAds" class="btn btn-primary" style="float:right;">Close</button>
         <br>
         <h3 class="font-weight-light mt-4 mb-0"><b>Recently Posted ADs</b></h3>
         <hr color="grey">
         <div class="row text-center text-lg-left" id="mainHead">
+            <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100"
+                    href="#">
+                    <div class="w3-card-4">
+                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image"
+                            id="id" src="images/logo.png"
+                            alt="images/logo.png">
+                        <p class="text-lg-center">PRODUCT DESCRIPTION</p>
+                        <p class="text-lg-center">₹ <b>PRICE</b></p>
+                    </div>
+                </a></div>
             <p class="text-lg-center" id="noAds" style="display: none;"><i>No Ads Posted Yet.</i><a href="postAd.html"
                     style="color: royalblue;">Post AD</a></p>
         </div>
@@ -182,6 +199,18 @@
         <h3 class="font-weight-light mt-4 mb-0"><b>Popular ADs</b></h3>
         <hr color="grey">
         <div class="row text-center text-lg-left" id="mainHeadPopular">
+                <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100"
+                    href="#">
+                    <div class="w3-card-4">
+                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image"
+                            id="id" src="images/logo.png"
+                            alt="images/logo.png">
+                        <p class="text-lg-center">PRODUCT DESCRIPTION</p>
+                        <p class="text-lg-center">₹ <b>PRICE</b></p>
+                        <p><i class="fa fa-heart"></i></p>
+                    </div>
+                </a></div>
+                
             <p class="text-lg-center" id="noAdsPopular" style="display: none;"><i>Ads Posted Yet.</i><a
                     href="postAd.html" style="color: royalblue;">Post AD</a></p>
         </div>
@@ -206,7 +235,16 @@
         <br>
         <br>
         <div class="row text-center text-lg-left" id="mainHeadCategory">
-
+                <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100"
+                    href="#">
+                    <div class="w3-card-4">
+                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image"
+                            id="id" src="images/logo.png"
+                            alt="images/logo.png">
+                        <p class="text-lg-center">PRODUCT DESCRIPTION</p>
+                        <p class="text-lg-center">₹ <b>PRICE</b></p>
+                    </div>
+                </a></div>
         </div>
         <br>
         <button id="searchMorePopular" name="searchMore" class="btn btn-primary" style="float:right;display: none;">See
@@ -216,7 +254,7 @@
                     href="postAd.html" style="color: royalblue;">Post AD</a></p>
         </center>
     </div>
-
+<br><br>
 </body>
 <script>
     var start = true;
@@ -345,18 +383,41 @@
         third_para.innerHTML = desc
 
         var fourth_para = document.createElement('p')
-        fourth_para.className = "text-lg-center"
-        fourth_para.innerHTML = "&#x20b9 " + price.bold()
+    fourth_para.className = "text-lg-center fa"
+    fourth_para.innerHTML = "&#xf041;  " + location.bold()
 
-        second_div.appendChild(second_para)
-        second_div.appendChild(image)
-        second_div.appendChild(third_para)
-        second_div.appendChild(fourth_para)
 
-        anch.appendChild(second_div)
-        elem.appendChild(anch)
+    var fifth_para = document.createElement('p')
+    fifth_para.className = "text-lg-center"
+    fifth_para.innerHTML = "&#x20b9 " + price.bold()
+
+    var i_element= document.createElement('button')
+    i_element.className="fa fa-heart"
+    i_element.id=id+"heart"
+    i_element.style.color="grey"
+    i_element.style.fontSize=24
+    i_element.onclick=function() { liked(id+"heart") };
+
+    anch.appendChild(second_para)
+    anch.appendChild(image)
+    anch.appendChild(third_para)
+    anch.appendChild(fourth_para)
+    anch.appendChild(fifth_para)
+    second_div.appendChild(anch)
+
+    second_div.appendChild(i_element)
+    elem.appendChild(second_div)
         document.getElementById("" + mainelement).appendChild(elem)
     }
+
+    function liked(id){
+    var heart=document.getElementById(id)
+    if(heart.style.color=="red"){
+      heart.style.color="grey"
+      return
+    }
+    heart.style.color="red"
+  }
 
     var recentlyPostedAds = async () => {
         var body = "";
@@ -365,7 +426,7 @@
             sessionStorage.removeItem("lastSearchedKey");
         }
         var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/recentlypostedads"
-        document.getElementById("mainHead").style.display = "none"
+        document.getElementById("mainHead").style.display = "block"
         document.getElementById("loader").style.display = "block";
         await fetch(url, {
             Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
@@ -381,7 +442,7 @@
                 });
             }
             return res.text().then((data) => {
-                document.getElementById("mainHead").style.display = "none";
+                document.getElementById("mainHead").style.display = "block";
                 document.getElementById("loader").style.display = "block"
                 console.log(data)
                 var total_data = JSON.parse(data)
@@ -393,6 +454,7 @@
                     document.getElementById("noAds").style.display = "block"
                     return;
                 }
+                document.getElementById("mainHead").innerHTML='';
                 for (var i = 0; i < total_data.length; i++) {
                     generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION, "mainHead")
                     console.log(i)
@@ -426,7 +488,7 @@
             sessionStorage.removeItem("lastSearchedKey");
         }
         var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/adspostedbycategory"
-        document.getElementById("mainHeadCategory").style.display = "none"
+        document.getElementById("mainHeadCategory").style.display = "block"
         document.getElementById("loaderCategory").style.display = "block";
         await fetch(url, {
             Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
@@ -434,6 +496,7 @@
             body
         }).then((res) => {
             if (res.status == 400) {
+                document.getElementById("mainHeadCategory").style.display = "block";
                 document.getElementById("loaderCategory").style.display = "block";
                 return res.text().then((data) => {
                     alert("Something went wrong. Please try again.")
@@ -442,7 +505,7 @@
                 });
             }
             return res.text().then((data) => {
-                document.getElementById("mainHeadCategory").style.display = "none";
+                document.getElementById("mainHeadCategory").style.display = "block";
                 document.getElementById("loaderCategory").style.display = "block"
                 var total_data = JSON.parse(data)
                 total_data = total_data.ITEMS
@@ -452,6 +515,9 @@
                     document.getElementById("lastAdCategory").style.display = "block"
                     return;
                 }
+
+                document.getElementById("mainHeadCategory").innerHTML="";
+
                 for (var i = 0; i < total_data.length; i++) {
                     generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION, "mainHeadCategory")
 

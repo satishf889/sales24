@@ -8,17 +8,23 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <style>
-          hr {
-      border: 0;
-      clear: both;
-      display: block;
-      width: 96%;
-      background-color: grey;
-      height: 1px;
-    }
+        body {
+            background-color: #EBEDEF;
+        }
+
+        hr {
+            border: 0;
+            clear: both;
+            display: block;
+            width: 96%;
+            background-color: grey;
+            height: 1px;
+        }
+
         p {
             overflow: hidden;
             white-space: nowrap;
@@ -26,10 +32,13 @@
 
         .border-primary {
             border: 1px solid grey;
+            padding: 20px;
         }
 
         .w3-card-4 {
             object-fit: cover;
+            margin: 5px;
+            padding: 5px
         }
 
         img {
@@ -139,8 +148,9 @@
                 <li><a href="#">CONTACT</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" id="userNotLoggedIn">
-                    <li><a href="register.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li><a href="register.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="javascript:void(0)" onclick="login()"><span class="glyphicon glyphicon-log-in"></span>
+                        Login</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" id="userLogin" style="display: none;">
                 <li class="navbar-text" id="lastLogin"></li>
@@ -161,26 +171,44 @@
         </div>
     </nav>
 
-    <div class="container" id="content">
+    <div class="container border-primary" id="content" style="background-color: ivory;">
         <button id="closeButton" name="recentltPostedAds" class="btn btn-primary" style="float:right;">Close</button>
         <br>
         <h3 class="font-weight-light mt-4 mb-0"><b>Recently Posted ADs</b></h3>
         <hr color="grey">
         <div class="row text-center text-lg-left" id="mainHead">
+            <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100" href="#">
+                    <div class="w3-card-4">
+                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image" id="id"
+                            src="images/logo.png" alt="images/logo.png">
+                        <p class="text-lg-center">PRODUCT DESCRIPTION</p>
+                        <p class="text-lg-center">₹ <b>PRICE</b></p>
+                    </div>
+                </a></div>
             <p class="text-lg-center" id="noAds" style="display: none;"><i>Ads Posted Yet.</i><a href="postAd.html"
                     style="color: royalblue;">Post AD</a></p>
         </div>
         <br>
-        <button id="searchMore" name="searchMore" class="btn btn-primary" style="float:right;display: none">See More</button>
-        <center><p class="text-lg-center" id="lastAd" style="display: none;"><i>No more Ads to display.</i><a href="postAd.html" style="color: royalblue;">Post AD</a></p></center>
+        <button id="searchMore" name="searchMore" class="btn btn-primary" style="float:right;display: none">See
+            More</button>
+        <center>
+            <p class="text-lg-center" id="lastAd" style="display: none;"><i>No more Ads to display.</i><a
+                    href="postAd.html" style="color: royalblue;">Post AD</a></p>
+        </center>
     </div>
 
 </body>
 <script>
-    var start=true;
+    var start = true;
     document.getElementById('closeButton').onclick = function () {
         window.location = "index.html"
     };
+
+    function login() {
+        var requestedUrl = window.location
+        sessionStorage.setItem('requestedURL', requestedUrl)
+        window.location = "login.html"
+    }
 
     var myIndex = 0;
     function readCookie(name) {
@@ -200,12 +228,12 @@
     var delete_cookie = function (name) {
         document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     };
-    if (readCookie("_sales24JWT")!="") {
-        document.getElementById('userNotLoggedIn').style.display="none"
-        document.getElementById('userLogin').style.display="block"
+    if (readCookie("_sales24JWT") != "") {
+        document.getElementById('userNotLoggedIn').style.display = "none"
+        document.getElementById('userLogin').style.display = "block"
         var user_data = JSON.parse(readCookie("_sales24JWT"))
         document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
-        document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
+            document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
     }
 
     function logout() {
@@ -263,7 +291,7 @@
         }
     }
 
-    var generateCard = async function (id, name, desc, price,location, src) {
+    var generateCard = async function (id, name, desc, price, location, src) {
 
         var elem = document.createElement('div');
         elem.className = "col-lg-3 col-md-4 col-6"
@@ -284,36 +312,59 @@
         image.className = "w3-image"
         image.id = id
         image.src = src
-        image.alt = "images/logo.png"
+        image.alt = "avatar"
 
         var third_para = document.createElement('p')
         third_para.className = "text-lg-center"
         third_para.innerHTML = desc
 
         var fourth_para = document.createElement('p')
-        fourth_para.className = "text-lg-center"
-        fourth_para.innerHTML = "&#x20b9 " + price.bold()
+        fourth_para.className = "text-lg-center fa"
+        fourth_para.innerHTML = "&#xf041;  " + location.bold()
 
-        second_div.appendChild(second_para)
-        second_div.appendChild(image)
-        second_div.appendChild(third_para)
-        second_div.appendChild(fourth_para)
 
-        anch.appendChild(second_div)
-        elem.appendChild(anch)
+        var fifth_para = document.createElement('p')
+        fifth_para.className = "text-lg-center"
+        fifth_para.innerHTML = "&#x20b9 " + price.bold()
+
+        var i_element = document.createElement('button')
+        i_element.className = "fa fa-heart"
+        i_element.id = id + "heart"
+        i_element.style.color = "grey"
+        i_element.style.fontSize = 24
+        i_element.onclick = function () { liked(id + "heart") };
+
+        anch.appendChild(second_para)
+        anch.appendChild(image)
+        anch.appendChild(third_para)
+        anch.appendChild(fourth_para)
+        anch.appendChild(fifth_para)
+        second_div.appendChild(anch)
+
+        second_div.appendChild(i_element)
+        elem.appendChild(second_div)
 
 
         document.getElementById("mainHead").appendChild(elem)
     }
 
+    function liked(id) {
+        var heart = document.getElementById(id)
+        if (heart.style.color == "red") {
+            heart.style.color = "grey"
+            return
+        }
+        heart.style.color = "red"
+    }
+
     var recentlyPostedAds = async () => {
         var body = "";
-        if (sessionStorage.getItem('lastSearchedKey') && start==false) {
+        if (sessionStorage.getItem('lastSearchedKey') && start == false) {
             body = JSON.stringify({ "lastScannedIndex": JSON.parse(sessionStorage.getItem('lastSearchedKey')) })
             sessionStorage.removeItem("lastSearchedKey");
         }
         var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/recentlypostedads"
-        document.getElementById("mainHead").style.display = "none"
+        document.getElementById("mainHead").style.display = "block"
         document.getElementById("loader").style.display = "block";
         await fetch(url, {
             Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
@@ -329,20 +380,20 @@
                 });
             }
             return res.text().then((data) => {
-                document.getElementById("mainHead").style.display = "none";
+                document.getElementById("mainHead").style.display = "block";
                 document.getElementById("loader").style.display = "block"
                 console.log(data)
                 var total_data = JSON.parse(data)
                 console.log(total_data)
                 if (total_data.LAST_KEY) {
                     sessionStorage.setItem('lastSearchedKey', JSON.stringify(total_data.LAST_KEY))
-                    document.getElementById('searchMore').style.display="block"
-                    start=false
+                    document.getElementById('searchMore').style.display = "block"
+                    start = false
                 }
-                else{
-                    document.getElementById('searchMore').style.display="none"
-                    document.getElementById('lastAd').style.display="block"
-                    start=true
+                else {
+                    document.getElementById('searchMore').style.display = "none"
+                    document.getElementById('lastAd').style.display = "block"
+                    start = true
                 }
                 total_data = total_data.ITEMS
                 if (total_data.length == 0) {
@@ -351,6 +402,7 @@
                     document.getElementById("noAds").style.display = "block"
                     return;
                 }
+                document.getElementById("mainHead").innerHTML = ""
                 for (var i = 0; i < total_data.length; i++) {
                     generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION)
                     console.log(i)
@@ -365,12 +417,13 @@
                 alert("Something Went Wrong. Please login again.")
                 document.getElementById("loader").style.display = "none";
                 document.getElementById("mainHead").style.display = "block"
+                window.location = "index1.html"
             })
 
     }
     const params = new URLSearchParams(document.location.search);
     const adId = params.get("key");
-    if(adId=='recent'){
+    if (adId == 'recent') {
         recentlyPostedAds()
     }
 </script>

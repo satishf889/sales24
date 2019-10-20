@@ -12,10 +12,9 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <style>
-    body {
-      background-color: #EBEDEF;
+    body{
+      background-color: #EBEDEF ;
     }
-
     hr {
       border: 0;
       clear: both;
@@ -32,8 +31,6 @@
 
     .w3-card-4 {
       object-fit: cover;
-      margin: 5px;
-      padding: 5px
     }
 
     .w3-image {
@@ -143,26 +140,24 @@
         <li><a href="#">CONTACT</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right" id="userNotLoggedIn">
-        <li><a href="javascript:void(0)" onclick="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
-        </li>
-        <li><a href="javascript:void(0)" onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-        </li>
+        <li><a href="javascript:void(0)" onclick="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="javascript:void(0)" onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right" id="userLogin" style="display: none;">
-        <li class="navbar-text" id="lastLogin"></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" href="#" role="button"
-            aria-haspopup="true" aria-expanded="false">
-            Hi,User
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="postAd.html">Post AD</a></li>
-            <li><a href="adsPosted.html">AD's Posted</a></li>
-            <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
-            <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
-          </ul>
-        </li>
+          <li class="navbar-text" id="lastLogin"></li>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" href="#"
+                  role="button" aria-haspopup="true" aria-expanded="false">
+                  Hi,User
+              </a>
+              <ul class="dropdown-menu">
+                  <li><a href="profile.html">Profile</a></li>
+                  <li><a href="postAd.html">Post AD</a></li>
+                  <li><a href="adsPosted.html">AD's Posted</a></li>
+                  <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
+                  <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
+              </ul>
+          </li>
       </ul>
     </div>
   </nav>
@@ -178,14 +173,21 @@
     <h3 class="font-weight-light mt-4 mb-0"><b>Recently Posted ADs</b></h3>
     <hr color="grey">
     <div class="row text-center text-lg-left" id="mainHead">
-      <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100" href="#">
+        <div class="col-lg-3 col-md-4 col-6">
           <div class="w3-card-4">
-            <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image" id="id" src="images/logo.png"
-              alt="images/logo.png">
-            <p class="text-lg-center">PRODUCT DESCRIPTION</p>
-            <p class="text-lg-center">₹ <b>PRICE</b></p>
-          </div>
-        </a></div>
+              <p class="text-lg-left"><span style="text-align: left;"> NAME</span><i class="fa fa-heart" style="color: red;text-align: right;"></i></p>
+              <a id="id" class="d-block mb-4 h-100"
+          href="#">
+              <img class="w3-image"
+                  id="id" src="images/logo.png"
+                  alt="images/logo.png">
+              <p class="text-lg-center">PRODUCT DESCRIPTION</p>
+              <p class="text-lg-center">₹ <b>PRICE</b></p> </a>
+              <i class="fa fa-thumbs-up" style="text-align: left;size: 20px;color: blue;"></i>
+            </div>
+     
+    
+    </div>
       <p class="text-lg-center" id="noAds" style="display: none;"><i>Ads Posted Yet.</i><a href="postAd.html"
           style="color: royalblue;">Post AD</a></p>
     </div>
@@ -193,100 +195,100 @@
     <button id="recentlyPostedAds" name="recentltPostedAds" class="btn btn-primary" style="float:right;">See
       More</button>
   </div>
-  <br><br>
+<br><br>
 </body>
 <script>
   var myIndex = 0;
 
-  function login() {
-    var requestedUrl = window.location
-    sessionStorage.setItem('requestedURL', requestedUrl)
-    window.location = "login.html"
-  }
-
-  function readCookie(name) {
-    var i, c, ca, nameEQ = name + "=";
-    ca = document.cookie.split(';');
-    for (i = 0; i < ca.length; i++) {
-      c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1, c.length);
-      }
-      if (c.indexOf(nameEQ) == 0) {
-        return c.substring(nameEQ.length, c.length);
-      }
+    function login(){
+      var requestedUrl=window.location
+      sessionStorage.setItem('requestedURL',requestedUrl)
+      window.location="login.html"
     }
-    return '';
-  }
-  var delete_cookie = function (name) {
-    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  };
-  if (readCookie("_sales24JWT") != '') {
-    document.getElementById('userNotLoggedIn').style.display = "none"
-    document.getElementById('userLogin').style.display = "block"
-    console.log(readCookie("_sales24JWT"))
-    var user_data = JSON.parse(readCookie("_sales24JWT"))
-    document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
-      document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
-  }
 
-  function logout() {
-    var logout_confirm = confirm("Do you wish to logout?")
-    if (logout_confirm) {
-      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
-      document.getElementById("loader").style.display = "block";
-      var logout_operation = async () => await fetch(url, {
-        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/text',
-          'Authorization': user_data.Token
+    function readCookie(name) {
+        var i, c, ca, nameEQ = name + "=";
+        ca = document.cookie.split(';');
+        for (i = 0; i < ca.length; i++) {
+            c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) == 0) {
+                return c.substring(nameEQ.length, c.length);
+            }
         }
-      }).then((res) => {
-        return res.text().then((data) => {
-          alert("You Have successfully Logged out of current session.")
-          delete_cookie("_sales24JWT")
-          window.location = 'index1.html';
-        })
-      }).catch((err) => {
-        alert("Something went wrong. Please login Again")
-        delete_cookie("_sales24JWT")
-        window.location = 'login.html';
-      })
-      logout_operation()
+        return '';
     }
-  }
+    var delete_cookie = function (name) {
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    };
+    if (readCookie("_sales24JWT")!='') {
+        document.getElementById('userNotLoggedIn').style.display="none"
+        document.getElementById('userLogin').style.display="block"
+        console.log(readCookie("_sales24JWT"))
+        var user_data = JSON.parse(readCookie("_sales24JWT"))
+        document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
+        document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
+    }
 
-
-  function logoutAll() {
-    var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
-    if (logoutAll_confirm) {
-      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
-      document.getElementById("loader").style.display = "block";
-      var logoutAll_operation = async () => await fetch(url, {
-        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/text',
-          'Authorization': user_data.Token
+    function logout() {
+        var logout_confirm = confirm("Do you wish to logout?")
+        if (logout_confirm) {
+            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
+            document.getElementById("loader").style.display = "block";
+            var logout_operation = async () => await fetch(url, {
+                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/text',
+                    'Authorization': user_data.Token
+                }
+            }).then((res) => {
+                return res.text().then((data) => {
+                    alert("You Have successfully Logged out of current session.")
+                    delete_cookie("_sales24JWT")
+                    window.location = 'index1.html';
+                })
+            }).catch((err) => {
+                alert("Something went wrong. Please login Again")
+                delete_cookie("_sales24JWT")
+                window.location = 'login.html';
+            })
+            logout_operation()
         }
-      }).then((res) => {
-        return res.text().then((data) => {
-          alert("You Have successfully Logged out of all devices.")
-          delete_cookie("_sales24JWT")
-          window.location = 'index1.html';
-        })
-      }).catch((err) => {
-        alert("Something went wrong. Please login Again")
-        delete_cookie("_sales24JWT")
-        window.location = 'login.html';
-      })
-      logoutAll_operation()
     }
-  }
+
+
+    function logoutAll() {
+        var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
+        if (logoutAll_confirm) {
+            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
+            document.getElementById("loader").style.display = "block";
+            var logoutAll_operation = async () => await fetch(url, {
+                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/text',
+                    'Authorization': user_data.Token
+                }
+            }).then((res) => {
+                return res.text().then((data) => {
+                    alert("You Have successfully Logged out of all devices.")
+                    delete_cookie("_sales24JWT")
+                    window.location = 'index1.html';
+                })
+            }).catch((err) => {
+                alert("Something went wrong. Please login Again")
+                delete_cookie("_sales24JWT")
+                window.location = 'login.html';
+            })
+            logoutAll_operation()
+        }
+    }
   document.getElementById('recentlyPostedAds').addEventListener('click', (e) => {
     e.preventDefault()
-    window.location = "adSearch.html?key=recent"
+    window.location="adSearch.html?key=recent"
   })
   var myIndex = 0;
   carousel();
@@ -346,7 +348,7 @@
     third_para.innerHTML = desc
 
     var fourth_para = document.createElement('p')
-    fourth_para.className = "text-lg-center fa"
+    fourth_para.className = "text-lg-center fa fa-heart"
     fourth_para.innerHTML = "&#xf041;  " + location.bold()
 
 
@@ -354,35 +356,18 @@
     fifth_para.className = "text-lg-center"
     fifth_para.innerHTML = "&#x20b9 " + price.bold()
 
-    var i_element = document.createElement('button')
-    i_element.className = "fa fa-heart"
-    i_element.id = id + "heart"
-    i_element.style.color = "grey"
-    i_element.style.fontSize = 24
-    i_element.onclick = function () { liked(id + "heart") };
 
-    anch.appendChild(second_para)
-    anch.appendChild(image)
-    anch.appendChild(third_para)
-    anch.appendChild(fourth_para)
-    anch.appendChild(fifth_para)
-    second_div.appendChild(anch)
+    second_div.appendChild(second_para)
+    second_div.appendChild(image)
+    second_div.appendChild(third_para)
+    second_div.appendChild(fourth_para)
+    second_div.appendChild(fifth_para)
 
-    second_div.appendChild(i_element)
-    elem.appendChild(second_div)
+    anch.appendChild(second_div)
+    elem.appendChild(anch)
 
 
     document.getElementById("mainHead").appendChild(elem)
-
-  }
-
-  function liked(id) {
-    var heart = document.getElementById(id)
-    if (heart.style.color == "red") {
-      heart.style.color = "grey"
-      return
-    }
-    heart.style.color = "red"
   }
 
   var ads_posted = async () => {
@@ -414,7 +399,7 @@
           document.getElementById("noAds").style.display = "block"
           return;
         }
-        document.getElementById("mainHead").innerHTML = ""
+        document.getElementById("mainHead").innerHTML=""
         for (var i = 0; i < total_data.length; i++) {
           generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION)
           if (i == total_data.length - 1) {
@@ -436,7 +421,7 @@
       })
 
   }
-  ads_posted()
+//ads_posted()
 </script>
 
 </html>

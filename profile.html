@@ -10,6 +10,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <style>
+         body{
+      background-color: #EBEDEF ;
+    }
+    .border-primary {
+            border: 1px solid grey;
+            padding: 20px;
+        }
         /* Center the loader */
         #loader {
             position: absolute;
@@ -119,7 +126,7 @@
             </ul>
         </div>
     </nav>
-    <div class="container">
+    <div class="container border-primary" style="background-color: ivory;">
 
         <form class="form-horizontal" id="userProfile">
             <fieldset>
@@ -191,7 +198,9 @@
         return 'None';
     }
     if (readCookie("_sales24JWT") == 'None') {
-        window.location = 'login.html';
+        var requestedUrl=window.location
+      sessionStorage.setItem('requestedURL',requestedUrl)
+      window.location="login.html"
     }
 
     var user_data = JSON.parse(readCookie("_sales24JWT"))
@@ -286,7 +295,7 @@
     profile_details()
     document.getElementById('userProfile').addEventListener('submit', (e) => {
         e.preventDefault()
-        window.location = 'index.html';
+        window.location = 'index1.html';
     })
 </script>
 
