@@ -5,39 +5,41 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({
 
 exports.handler = async (event) => {
     console.log("Event recived: ", event)
-    var user_info = event.requestContext.authorizer.user
-    console.log("User info is :", user_info)
-    user_info = JSON.parse(user_info)
     event = JSON.parse(event.body)
-    var params = {
-        Key: {
-            USERNAME: user_info.USERNAME,
-            AD_KEY: event.AD_KEY,
-        },
-        ProjectionExpression: 'PRODUCT_CATEGORY,PRODUCT_NAME,DESCRIPTION,PRODUCT_PRICE,PRODUCT_LOCATION,PRODUCT_STATUS,PRODUCT_TIME_POSTED,AD_KEY',
-        TableName: 'ADVERTISEMENT',
+    console.log(event)
+    var params;
+    if (event != null) {
+        params = {
+            ExpressionAttributeValues: { ":status": "Active" },
+            KeyConditionExpression: "PRODUCT_STATUS=:status",
+            ProjectionExpression: 'PRODUCT_NAME,PRODUCT_DESCRIPTION,AD_KEY,PRODUCT_PRICE,PRODUCT_LOCATION,S3_LOCATION,LIKES',
+            TableName: 'ADVERTISEMENT',
+            IndexName: 'PRODUCT_STATUS-PRODUCT_CATEGORY-index',
+            ScanIndexForward: false,
+            ExclusiveStartKey: event.lastScannedIndex,
+            Limit: 10
+        }
     }
-
-    const result = await dynamoDb.get(params).promise()
+    else {
+        params = {
+            ExpressionAttributeValues: { ":status": "Active" },
+            KeyConditionExpression: "PRODUCT_STATUS=:status",
+            ProjectionExpression: 'PRODUCT_NAME,PRODUCT_DESCRIPTION,AD_KEY,PRODUCT_PRICE,PRODUCT_LOCATION,S3_LOCATION,LIKES',
+            TableName: 'ADVERTISEMENT',
+            IndexName: 'PRODUCT_STATUS-PRODUCT_CATEGORY-index',
+            ScanIndexForward: false,
+            Limit: 10
+        }
+    }
+    const result = await dynamoDb.query(params).promise()
         .then((res) => {
             console.log("Dynamo Response is :", res)
-            return res.Item
+            return res
         })
         .catch((err) => {
             console.log(err)
             return "Something went wrong."
         })
-
-    if (result.length < 1) {
-        return {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json",
-            },
-            statusCode: 400,
-            body: JSON.stringify("No Such Ad found")
-        }
-    }
 
     if (result == "Something went wrong.") {
         return {
@@ -45,7 +47,7 @@ exports.handler = async (event) => {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json",
             },
-            statusCode: 500,
+            statusCode: 400,
             body: JSON.stringify(result)
         }
     }
@@ -55,7 +57,7 @@ exports.handler = async (event) => {
             "Content-Type": "application/json",
         },
         statusCode: 200,
-        body: JSON.stringify(result),
+        body: JSON.stringify({ "ITEMS": result.Items, "LAST_KEY": result.LastEvaluatedKey }),
     };
     return response;
 };

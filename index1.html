@@ -198,6 +198,12 @@
 <script>
   var myIndex = 0;
 
+  function register() {
+    var requestedUrl = window.location
+    sessionStorage.setItem('requestedURL', requestedUrl)
+    window.location = "register.html"
+  }
+
   function login() {
     var requestedUrl = window.location
     sessionStorage.setItem('requestedURL', requestedUrl)
@@ -251,7 +257,7 @@
       }).catch((err) => {
         alert("Something went wrong. Please login Again")
         delete_cookie("_sales24JWT")
-        window.location = 'login.html';
+        window.location = 'index1.html';
       })
       logout_operation()
     }
@@ -279,7 +285,7 @@
       }).catch((err) => {
         alert("Something went wrong. Please login Again")
         delete_cookie("_sales24JWT")
-        window.location = 'login.html';
+        window.location = 'index1.html';
       })
       logoutAll_operation()
     }
@@ -317,7 +323,7 @@
     return '';
   }
 
-  var generateCard = async function (id, name, desc, price, location, src) {
+  var generateCard = async function (id, name, desc, price, location, src,color,likes) {
 
     var elem = document.createElement('div');
     elem.className = "col-lg-3 col-md-4 col-6"
@@ -357,17 +363,13 @@
     var like_dev= document.createElement('p')
     var i_element = document.createElement('button')
     i_element.className = "fa fa-heart"
-    i_element.id = id + "heart"
-    i_element.style.color = "grey"
+    i_element.id = id + "/heart"
+    i_element.style.color = color
     i_element.style.fontSize = 24
-    i_element.onclick = function () { liked(id + "heart") };
-
-    var like_para=document.createElement('p')
-    like_para.append="0".bold()
+    i_element.onclick = function () { liked(id + "/heart") };
 
     like_dev.appendChild(i_element)
-    like_dev.append(" 0")
-    //like_dev.appendChild(testfield)
+    like_dev.append(" "+likes)
 
     anch.appendChild(second_para)
     anch.appendChild(image)
@@ -385,13 +387,74 @@
 
   }
 
-  function liked(id) {
+  async function liked(id) {
+
+    if(readCookie("_sales24JWT") == ''){
+      login()
+    }
     var heart = document.getElementById(id)
-    if (heart.style.color == "red") {
-      heart.style.color = "grey"
+    if (heart.style.color == "grey") {
+      alert(id.replace("/heart",""))
+      await wishlist(id.replace("/heart",""))
       return
     }
-    heart.style.color = "red"
+    await remove_wishlist(id.replace("/heart",""))
+  }
+
+  var wishlist=async(id)=>{
+      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/wishlistad"
+      await fetch(url, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'POST',
+        body: JSON.stringify({"AD_KEY":id}),
+        headers: {
+          'Content-Type': 'application/text',
+          'Authorization': user_data.Token
+        }
+      }).then((res) => {
+        if(res.statusCode==400){
+          document.getElementById(id+'/heart').style.color="grey" 
+          return
+        }
+        else if(res.statusCode==500){
+          alert("Something went wrong.Please try again.")
+          return
+        }
+      document.getElementById(id+'/heart').style.color="red"
+      }).catch((err) => {
+        alert("Something went wrong. Please login Again")
+        alert(err)
+        // delete_cookie("_sales24JWT")
+        // window.location = 'login.html';
+      })
+  }
+
+
+  var remove_wishlist=async(id)=>{
+      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/removewishlist"
+      await fetch(url, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'POST',
+        body: JSON.stringify({"AD_KEY":id}),
+        headers: {
+          'Content-Type': 'application/text',
+          'Authorization': user_data.Token
+        }
+      }).then((res) => {
+        if(res.statusCode==400){
+          document.getElementById(id+'/heart').style.color="grey" 
+          return
+        }
+        else if(res.statusCode==500){
+          alert("Something went wrong.Please try again.")
+          return
+        }
+      document.getElementById(id+'/heart').style.color="red"
+      }).catch((err) => {
+        alert("Something went wrong. Please login Again")
+        // delete_cookie("_sales24JWT")
+        // window.location = 'login.html';
+      })
   }
 
   var ads_posted = async () => {
@@ -417,6 +480,7 @@
         document.getElementById("loader").style.display = "block"
         var total_data = JSON.parse(data)
         total_data = total_data.ITEMS
+        console.log(total_data)
         if (total_data.length == 0) {
           document.getElementById("mainHead").style.display = "block";
           document.getElementById("loader").style.display = "none"
@@ -425,7 +489,19 @@
         }
         document.getElementById("mainHead").innerHTML = ""
         for (var i = 0; i < total_data.length; i++) {
-          generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION)
+          var color="grey";
+          console.log("Color before "+color)
+          if(readCookie("_sales24JWT") != ''){
+            var user_liked=JSON.parse(readCookie("_sales24JWT")).LIKED_ADS
+            console.log(user_liked)
+            var position= user_liked.indexOf(total_data[i].AD_KEY)
+            console.log(position)
+            if(position!=-1){
+              color="red"
+            }
+          }
+          console.log("Color after "+color)
+          generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION,color,total_data[i].LIKES)
           if (i == total_data.length - 1) {
             document.getElementById("mainHead").style.display = "block";
             document.getElementById("loader").style.display = "none"

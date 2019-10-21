@@ -212,7 +212,7 @@
 			return '';
 		}
 		if (readCookie("_sales24JWT")) {
-			window.location = 'index.html';
+			window.location = 'index1.html';
 		}
 
   var registerForm = document.getElementById('registerForm')
@@ -280,9 +280,9 @@
                   }
                   return res.text().then((data)=>{
                     data=JSON.parse(data)
-                    var JWTdata = JSON.stringify({ "Token": data.Token, "username": username, "lastLogin": data.Last_Login })
+                    var JWTdata = JSON.stringify({ "Token": data.Token, "username": username, "lastLogin": data.Last_Login,"LIKED_ADS":data.LIKED_ADS })
 						writeCookie("_sales24JWT", JWTdata, 2)
-						window.location = 'index.html';
+						window.location = 'index1.html';
                   })
               }).catch((err)=>{
                 document.getElementById("content").style.display = "block"
