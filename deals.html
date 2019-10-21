@@ -12,9 +12,10 @@
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body{
-      background-color: #EBEDEF ;
-    }
+        body {
+            background-color: #EBEDEF;
+        }
+
         hr {
             border: 0;
             clear: both;
@@ -37,7 +38,7 @@
         .w3-card-4 {
             object-fit: cover;
             margin: 5px;
-            padding:5px
+            padding: 5px
         }
 
         img {
@@ -169,18 +170,16 @@
         </div>
     </nav>
 
-    <div class="container border-primary" id="content" style="background-color: ivory;">
+    <div class="container border-primary" id="content" style="background-color: whitesmoke;">
         <button id="closeButton" name="recentltPostedAds" class="btn btn-primary" style="float:right;">Close</button>
         <br>
         <h3 class="font-weight-light mt-4 mb-0"><b>Recently Posted ADs</b></h3>
         <hr color="grey">
         <div class="row text-center text-lg-left" id="mainHead">
-            <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100"
-                    href="#">
+            <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100" href="#">
                     <div class="w3-card-4">
-                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image"
-                            id="id" src="images/logo.png"
-                            alt="images/logo.png">
+                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image" id="id"
+                            src="images/logo.png" alt="images/logo.png">
                         <p class="text-lg-center">PRODUCT DESCRIPTION</p>
                         <p class="text-lg-center">₹ <b>PRICE</b></p>
                     </div>
@@ -199,18 +198,16 @@
         <h3 class="font-weight-light mt-4 mb-0"><b>Popular ADs</b></h3>
         <hr color="grey">
         <div class="row text-center text-lg-left" id="mainHeadPopular">
-                <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100"
-                    href="#">
+            <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100" href="#">
                     <div class="w3-card-4">
-                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image"
-                            id="id" src="images/logo.png"
-                            alt="images/logo.png">
+                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image" id="id"
+                            src="images/logo.png" alt="images/logo.png">
                         <p class="text-lg-center">PRODUCT DESCRIPTION</p>
                         <p class="text-lg-center">₹ <b>PRICE</b></p>
                         <p><i class="fa fa-heart"></i></p>
                     </div>
                 </a></div>
-                
+
             <p class="text-lg-center" id="noAdsPopular" style="display: none;"><i>Ads Posted Yet.</i><a
                     href="postAd.html" style="color: royalblue;">Post AD</a></p>
         </div>
@@ -224,40 +221,46 @@
         <h3 class="font-weight-light mt-4 mb-0"><b>ADs By Categories</b></h3>
         <hr color="grey">
         <div class="loader" id="loaderCategory" style="display: none;"></div>
-        <select id="productCategory" name="productCategory" class="form-control" style="float: right;width: 20%;">
-            <option value="Electronics" selected>Electronics</option>
-            <option value="Fashion">Fashion</option>
-            <option value="Home Appliances">Home Appliances</option>
-            <option value="Two Wheeler">Two Wheeler</option>
-            <option value="Four Wheeler">Four Wheeler</option>
-            <option value="Others">Others</option>
-        </select>
-        <br>
-        <br>
+        <div>
+            <select id="productCategory" name="productCategory" class="form-control" style="float: right;width: 20%;">
+                <option value="Electronics" selected>Electronics</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Home Appliances">Home Appliances</option>
+                <option value="Two Wheeler">Two Wheeler</option>
+                <option value="Four Wheeler">Four Wheeler</option>
+                <option value="Others">Others</option>
+            </select>
+            <br>
+            <br>
+        </div>
         <div class="row text-center text-lg-left" id="mainHeadCategory">
-                <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100"
-                    href="#">
+            <div class="col-lg-3 col-md-4 col-6"><a id="id" class="d-block mb-4 h-100" href="#">
                     <div class="w3-card-4">
-                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image"
-                            id="id" src="images/logo.png"
-                            alt="images/logo.png">
+                        <p class="text-lg-center">PRODUCT NAME<i></i></p><img class="w3-image" id="id"
+                            src="images/logo.png" alt="images/logo.png">
                         <p class="text-lg-center">PRODUCT DESCRIPTION</p>
                         <p class="text-lg-center">₹ <b>PRICE</b></p>
                     </div>
                 </a></div>
         </div>
         <br>
-        <button id="searchMorePopular" name="searchMore" class="btn btn-primary" style="float:right;display: none;">See
+        <button id="searchMoreCategory" name="searchMore" class="btn btn-primary" style="float:right;display: none;">See
             More</button>
         <center>
             <p class="text-lg-center" id="lastAdCategory" style="display: none;"><i>No more Ads to display.</i><a
                     href="postAd.html" style="color: royalblue;">Post AD</a></p>
         </center>
     </div>
-<br><br>
+    <br><br>
 </body>
 <script>
     var start = true;
+    document.getElementById("searchMoreCategory").addEventListener('onclick',(e)=>{
+        e.preventDefault()
+        var url="adSeach.html?category="+document.getElementById("productCategory").value
+        window.location(url)
+    })
+    
 
     document.getElementById('productCategory').addEventListener('change', (e) => {
         e.preventDefault()
@@ -269,9 +272,7 @@
 
     function seeMore(id) {
         var url = "adSearch.html?key=" + id
-        // var win = window.open("adSearch.html?key=recent", '_blank');
-        // win.focus();
-        alert(url)
+        window.location = url
     }
 
     var myIndex = 0;
@@ -383,41 +384,41 @@
         third_para.innerHTML = desc
 
         var fourth_para = document.createElement('p')
-    fourth_para.className = "text-lg-center fa"
-    fourth_para.innerHTML = "&#xf041;  " + location.bold()
+        fourth_para.className = "text-lg-center fa"
+        fourth_para.innerHTML = "&#xf041;  " + location.bold()
 
 
-    var fifth_para = document.createElement('p')
-    fifth_para.className = "text-lg-center"
-    fifth_para.innerHTML = "&#x20b9 " + price.bold()
+        var fifth_para = document.createElement('p')
+        fifth_para.className = "text-lg-center"
+        fifth_para.innerHTML = "&#x20b9 " + price.bold()
 
-    var i_element= document.createElement('button')
-    i_element.className="fa fa-heart"
-    i_element.id=id+"heart"
-    i_element.style.color="grey"
-    i_element.style.fontSize=24
-    i_element.onclick=function() { liked(id+"heart") };
+        var i_element = document.createElement('button')
+        i_element.className = "fa fa-heart"
+        i_element.id = id + "heart"
+        i_element.style.color = "grey"
+        i_element.style.fontSize = 24
+        i_element.onclick = function () { liked(id + "heart") };
 
-    anch.appendChild(second_para)
-    anch.appendChild(image)
-    anch.appendChild(third_para)
-    anch.appendChild(fourth_para)
-    anch.appendChild(fifth_para)
-    second_div.appendChild(anch)
+        anch.appendChild(second_para)
+        anch.appendChild(image)
+        anch.appendChild(third_para)
+        anch.appendChild(fourth_para)
+        anch.appendChild(fifth_para)
+        second_div.appendChild(anch)
 
-    second_div.appendChild(i_element)
-    elem.appendChild(second_div)
+        second_div.appendChild(i_element)
+        elem.appendChild(second_div)
         document.getElementById("" + mainelement).appendChild(elem)
     }
 
-    function liked(id){
-    var heart=document.getElementById(id)
-    if(heart.style.color=="red"){
-      heart.style.color="grey"
-      return
+    function liked(id) {
+        var heart = document.getElementById(id)
+        if (heart.style.color == "red") {
+            heart.style.color = "grey"
+            return
+        }
+        heart.style.color = "red"
     }
-    heart.style.color="red"
-  }
 
     var recentlyPostedAds = async () => {
         var body = "";
@@ -444,9 +445,7 @@
             return res.text().then((data) => {
                 document.getElementById("mainHead").style.display = "block";
                 document.getElementById("loader").style.display = "block"
-                console.log(data)
                 var total_data = JSON.parse(data)
-                console.log(total_data)
                 total_data = total_data.ITEMS
                 if (total_data.length == 0) {
                     document.getElementById("mainHead").style.display = "block";
@@ -454,10 +453,9 @@
                     document.getElementById("noAds").style.display = "block"
                     return;
                 }
-                document.getElementById("mainHead").innerHTML='';
+                document.getElementById("mainHead").innerHTML = '';
                 for (var i = 0; i < total_data.length; i++) {
                     generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION, "mainHead")
-                    console.log(i)
                     if (i == total_data.length - 1) {
                         document.getElementById("mainHead").style.display = "block";
                         document.getElementById("loader").style.display = "none"
@@ -516,7 +514,7 @@
                     return;
                 }
 
-                document.getElementById("mainHeadCategory").innerHTML="";
+                document.getElementById("mainHeadCategory").innerHTML = "";
 
                 for (var i = 0; i < total_data.length; i++) {
                     generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION, "mainHeadCategory")
