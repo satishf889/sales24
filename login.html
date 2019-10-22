@@ -16,6 +16,9 @@
 	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 	<style>
 		/* Center the loader */
@@ -98,11 +101,21 @@
 
 <body style="margin:0;">
 	<div id="loader" style="display: none;"></div>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<center><a class="navbar-brand" href="index1.html">SALES24.com</a></center>
+		</div>
+	</nav>
+
 	<div class="limiter" id="content">
+
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+					<center><img src="images/logo.png" style="height:30%;width: 20%;"></center>
 				<form class="login100-form validate-form" method="post" id="login-form">
 					<span class="login100-form-title p-b-33">
+
 						Account Login
 					</span>
 
@@ -158,104 +171,8 @@
 	<script src="vendor/daterangepicker/daterangepicker.js"></script>
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 	<script src="js/main.js"></script>
-	<script>
-		function writeCookie(name, value, days) {
-			var date, expires;
-			if (days) {
-				date = new Date();
-				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-				expires = "; expires=" + date.toGMTString();
-			} else {
-				expires = "";
-			}
-			document.cookie = name + "=" + value + expires + "; path=/";
-		}
-
-		function readCookie(name) {
-			var i, c, ca, nameEQ = name + "=";
-			ca = document.cookie.split(';');
-			for (i = 0; i < ca.length; i++) {
-				c = ca[i];
-				while (c.charAt(0) == ' ') {
-					c = c.substring(1, c.length);
-				}
-				if (c.indexOf(nameEQ) == 0) {
-					return c.substring(nameEQ.length, c.length);
-				}
-			}
-			return '';
-		}
-		if (readCookie("_sales24JWT")) {
-			window.location = 'index1.html';
-		}
-		var delete_cookie = function (name) {
-    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-};
-		var myVar;
-		var form = document.getElementById("login-form")
-
-		form.addEventListener('submit', (e) => {
-			e.preventDefault();
-			var username = document.getElementById("username").value
-			var password = document.getElementById("password").value
-
-			//console.log(username)
-			if (username == '' || password == '') {
-				return;
-			}
-			if (username.length < 6) {
-				alert("Username cannot be less than 6 characters")
-				return;
-			}
-
-			const url = 'https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/login';
-			const data = { username, password };
-
-			(async () => {
-				document.getElementById("login-form").style.display = "none"
-				document.getElementById("loader").style.display = "block";
-				await fetch(url, {
-					Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-					method: 'POST', // or 'PUT'
-					body: JSON.stringify(data), // data can be `string` or {object}!
-					headers: {
-						'Content-Type': 'application/text',
-					}
-				}).then((res) => {
-					if (res.status == 400) {
-						document.getElementById("loader").style.display = "block";
-						return res.text().then((data) => {
-							document.getElementById("loader").style.display = "none";
-							document.getElementById("login-form").style.display = "block"
-							document.getElementById("loginError").style.display = "block";
-							document.getElementById("loginError").innerHTML = data;
-						});
-					}
-					return res.text().then((data) => {
-						document.getElementById("login-form").style.display = "none";
-						document.getElementById("loader").style.display = "block"
-						data = JSON.parse(data)
-						var JWTdata = JSON.stringify({ "Token": data.Token, "username": username, "lastLogin": data.Last_Login ,"LIKED_ADS":data.LIKED_ADS})
-						delete_cookie("_sales24JWT")
-						writeCookie("_sales24JWT", JWTdata, 2)
-						var url=sessionStorage.getItem('requestedURL')
-						sessionStorage.removeItem('requestedURL')
-						if(url==null){
-							url="index1.html"
-						}
-						window.location = url;
-					})
-				})
-					.catch((err) => {
-						alert("Something Went Wrong. Try again.")
-						document.getElementById("loader").style.display = "none";
-						document.getElementById("login-form").style.display = "block"
-						console.log(err)
-					})
-
-			})()
-		})
-	</script>
+	<script src="js/app.js"></script>
+	<script src="js/login.js"></script>
 
 </body>
 

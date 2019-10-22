@@ -11,6 +11,14 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <style>
+         hr {
+      border: 0;
+      clear: both;
+      display: block;
+      width: 96%;
+      background-color: grey;
+      height: 1px;
+    }
          body{
       background-color: #EBEDEF ;
     }
@@ -128,11 +136,11 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">SALES24.com</a>
+                <a class="navbar-brand" href="index1.html">SALES24.com</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="index.html">Home</a></li>
-                <li><a href="#">DEALS</a></li>
+                <li class="active"><a href="index1.html">Home</a></li>
+                <li><a href="deals.html">DEALS</a></li>
                 <li><a href="#">ABOUT</a></li>
                 <li><a href="#">CONTACT</a></li>
             </ul>
@@ -171,201 +179,15 @@
                         <p class="text-lg-center">₹ <b>PRICE</b></p>
                     </div>
                 </a>
-                <p class="text-lg-center" id="noAds" style="display: none;"><i>Ads Posted Yet.</i><a href="postAd.html" style="color: royalblue;">Post AD</a></p>
                 </div>
             </div>
+            <center><p class="text-lg-center" id="noAds" style="display: none;"><i>No Ads Posted Yet.</i><a href="postAd.html" style="color: royalblue;">Post AD</a></p></center>
             <br>
                   <button id="closeButton" name="closeButton" class="btn btn-primary" style="margin:0 auto;
                   display:block;">Close</button>
 
 </body>
-<script>
-    document.getElementById('closeButton').onclick = function(){
-        window.location="index.html"
-    };
-
-    var myIndex = 0;
-    function readCookie(name) {
-        var i, c, ca, nameEQ = name + "=";
-        ca = document.cookie.split(';');
-        for (i = 0; i < ca.length; i++) {
-            c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1, c.length);
-            }
-            if (c.indexOf(nameEQ) == 0) {
-                return c.substring(nameEQ.length, c.length);
-            }
-        }
-        return 'None';
-    }
-    var delete_cookie = function (name) {
-        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    };
-    if (readCookie("_sales24JWT") == 'None') {
-        window.location = 'login.html';
-    }
-
-    var user_data = JSON.parse(readCookie("_sales24JWT"))
-    document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
-        document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
-
-    function logout() {
-        var logout_confirm = confirm("Do you wish to logout?")
-        if (logout_confirm) {
-            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
-            document.getElementById("loader").style.display = "block";
-            var logout_operation = async () => await fetch(url, {
-                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/text',
-                    'Authorization': user_data.Token
-                }
-            }).then((res) => {
-                return res.text().then((data) => {
-                    alert("You Have successfully Logged out of current session.")
-                    delete_cookie("_sales24JWT")
-                    window.location = 'index1.html';
-                })
-            }).catch((err) => {
-                alert("Something went wrong. Please login Again")
-                delete_cookie("_sales24JWT")
-                window.location = 'login.html';
-            })
-            logout_operation()
-        }
-    }
-
-
-    function logoutAll() {
-        var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
-        if (logoutAll_confirm) {
-            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
-            document.getElementById("loader").style.display = "block";
-            var logoutAll_operation = async () => await fetch(url, {
-                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/text',
-                    'Authorization': user_data.Token
-                }
-            }).then((res) => {
-                return res.text().then((data) => {
-                    alert("You Have successfully Logged out of all devices.")
-                    delete_cookie("_sales24JWT")
-                    window.location = 'index1.html';
-                })
-            }).catch((err) => {
-                alert("Something went wrong. Please login Again")
-                delete_cookie("_sales24JWT")
-                window.location = 'login.html';
-            })
-            logoutAll_operation()
-        }
-    }
-
-    var generateCard = async function (id, name, desc, price,src) {
-
-        var elem = document.createElement('div');
-        elem.className = "col-lg-3 col-md-4 col-6"
-        var anch = document.createElement('a');
-        anch.id = "id"
-        anch.className = "d-block mb-4 h-100"
-        anch.href="adDetail.html?AD_ID="+id
-
-        var second_div = document.createElement('div')
-        second_div.className = "w3-card-4"
-
-        var second_para = document.createElement('p')
-        second_para.innerHTML = name + "".italics()
-        second_para.className = "text-lg-center"
-
-
-        var image = document.createElement('img')
-        image.className = "w3-image"
-        image.id = id
-        image.src = src
-        image.alt = "images/logo.png"
-
-        var third_para = document.createElement('p')
-        third_para.className = "text-lg-center"
-        third_para.innerHTML = desc
-
-        var fourth_para = document.createElement('p')
-        fourth_para.className = "text-lg-center"
-        fourth_para.innerHTML = "&#x20b9 " + price.bold()
-
-        second_div.appendChild(second_para)
-        second_div.appendChild(image)
-        second_div.appendChild(third_para)
-        second_div.appendChild(fourth_para)
-
-        anch.appendChild(second_div)
-        elem.appendChild(anch)
-        
-
-        document.getElementById("mainHead").appendChild(elem)
-    }
-
-    function adDetail(id){
-        alert(id)
-        return true;
-    }
-
-    var ads_posted = async () => {
-        var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/retrieveads"
-        document.getElementById("mainHead").style.display = "block"
-        document.getElementById("loader").style.display = "block";
-        await fetch(url, {
-            Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-            method: 'GET', // or 'PUT'
-            headers: {
-                'Authorization': user_data.Token
-            }
-        }).then((res) => {
-            if (res.status == 400) {
-                document.getElementById("loader").style.display = "block";
-                return res.text().then((data) => {
-                    alert("Something went wrong. Please try again.")
-                    document.getElementById("loader").style.display = "none";
-                    document.getElementById("mainhead").style.display = "block"
-                });
-            }
-            return res.text().then((data) => {
-                document.getElementById("mainHead").style.display = "block";
-                document.getElementById("loader").style.display = "block"
-                
-                var total_data = JSON.parse(data)
-                document.getElementById("totalAds").innerHTML="You have posted "+total_data.length+" Ads."
-                if(total_data.length==0){
-                    
-                    document.getElementById("mainHead").style.display = "block";
-                document.getElementById("loader").style.display = "none"
-                document.getElementById("noAds").style.display="block"
-                    return;
-                }
-                document.getElementById("mainHead").innerHTML=""
-                for (var i = 0; i < total_data.length; i++) {
-                    generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE,total_data[i].S3_LOCATION)
-                    if (i == total_data.length - 1) {
-                        document.getElementById("mainHead").style.display = "block";
-                        document.getElementById("loader").style.display = "none"
-                    }
-                }
-            })
-        })
-            .catch((err) => {
-                alert("Something Went Wrong. Please login again.")
-                document.getElementById("loader").style.display = "none";
-                document.getElementById("mainHead").style.display = "block"
-                delete_cookie("_sales24JWT")
-                window.location = "login.html"
-            })
-
-    }
-    ads_posted()
-
-</script>
+<script src="js/app.js"></script>
+<script src="js/adsPosted.js"></script>
 
 </html>

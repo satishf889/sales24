@@ -12,9 +12,10 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <style>
-    body{
-      background-color: #EBEDEF ;
+    body {
+      background-color: #EBEDEF;
     }
+
     hr {
       border: 0;
       clear: both;
@@ -31,6 +32,8 @@
 
     .w3-card-4 {
       object-fit: cover;
+      margin: 5px;
+      padding: 5px
     }
 
     .w3-image {
@@ -140,29 +143,31 @@
         <li><a href="#">CONTACT</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right" id="userNotLoggedIn">
-        <li><a href="javascript:void(0)" onclick="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="javascript:void(0)" onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="javascript:void(0)" onclick="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+        </li>
+        <li><a href="javascript:void(0)" onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right" id="userLogin" style="display: none;">
-          <li class="navbar-text" id="lastLogin"></li>
-          <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" href="#"
-                  role="button" aria-haspopup="true" aria-expanded="false">
-                  Hi,User
-              </a>
-              <ul class="dropdown-menu">
-                  <li><a href="profile.html">Profile</a></li>
-                  <li><a href="postAd.html">Post AD</a></li>
-                  <li><a href="adsPosted.html">AD's Posted</a></li>
-                  <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
-                  <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
-              </ul>
-          </li>
+        <li class="navbar-text" id="lastLogin"></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" href="#" role="button"
+            aria-haspopup="true" aria-expanded="false">
+            Hi,User
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="postAd.html">Post AD</a></li>
+            <li><a href="adsPosted.html">AD's Posted</a></li>
+            <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
+            <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>
 
-  <div class="container border-primary" style="background-color: ivory;">
+  <div class="container border-primary" style="background-color:whitesmoke">
     <div class="slides_container" style="height:300px;">
       <img class="mySlides" src="images/slider/1.png" style="width:100%;height:100%">
       <img class="mySlides" src="images/slider/2.jpg" style="width:100%;height:100%">
@@ -173,21 +178,15 @@
     <h3 class="font-weight-light mt-4 mb-0"><b>Recently Posted ADs</b></h3>
     <hr color="grey">
     <div class="row text-center text-lg-left" id="mainHead">
-        <div class="col-lg-3 col-md-4 col-6">
-          <div class="w3-card-4">
-              <p class="text-lg-left"><span style="text-align: left;"> NAME</span><i class="fa fa-heart" style="color: red;text-align: right;"></i></p>
-              <a id="id" class="d-block mb-4 h-100"
-          href="#">
-              <img class="w3-image"
-                  id="id" src="images/logo.png"
-                  alt="images/logo.png">
-              <p class="text-lg-center">PRODUCT DESCRIPTION</p>
-              <p class="text-lg-center">₹ <b>PRICE</b></p> </a>
-              <p><i class="fa fa-thumbs-up" style="text-align: left;size: 20px;color: blue;"></i>0</p>
-            </div>
-     
-    
-    </div>
+      <div class="w3-card-4"><a id="id" class="d-block mb-4 h-100" href="adDetail1.html?AD_ID=satishtest1/AD5/5.jpg">
+          <p class="text-lg-center">Refrigerator<i></i></p><img class="w3-image" id="satishtest1/AD5/5.jpg"
+            src="https://sale24dev.s3.amazonaws.com/satishtest1/AD5/5.jpg" alt="avatar">
+          <p class="text-lg-center">Refrigerator for sale</p>
+          <p class="text-lg-center fa"> <b>Bangalore</b></p>
+          <p class="text-lg-center">₹ <b>8500</b></p>
+        </a>
+        <p><button class="fa fa-heart" id="satishtest1/AD5/5.jpg/heart" style="color: grey;"></button><span id="totalLikes">15</span> </p>
+      </div>
       <p class="text-lg-center" id="noAds" style="display: none;"><i>Ads Posted Yet.</i><a href="postAd.html"
           style="color: royalblue;">Post AD</a></p>
     </div>
@@ -195,100 +194,108 @@
     <button id="recentlyPostedAds" name="recentltPostedAds" class="btn btn-primary" style="float:right;">See
       More</button>
   </div>
-<br><br>
+  <br><br>
 </body>
 <script>
   var myIndex = 0;
 
-    function login(){
-      var requestedUrl=window.location
-      sessionStorage.setItem('requestedURL',requestedUrl)
-      window.location="login.html"
-    }
+  alert(document.getElementById("totalLikes").innerText)
 
-    function readCookie(name) {
-        var i, c, ca, nameEQ = name + "=";
-        ca = document.cookie.split(';');
-        for (i = 0; i < ca.length; i++) {
-            c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1, c.length);
-            }
-            if (c.indexOf(nameEQ) == 0) {
-                return c.substring(nameEQ.length, c.length);
-            }
+  function register() {
+    var requestedUrl = window.location
+    sessionStorage.setItem('requestedURL', requestedUrl)
+    window.location = "register.html"
+  }
+
+  function login() {
+    var requestedUrl = window.location
+    sessionStorage.setItem('requestedURL', requestedUrl)
+    window.location = "login.html"
+  }
+
+  function readCookie(name) {
+    var i, c, ca, nameEQ = name + "=";
+    ca = document.cookie.split(';');
+    for (i = 0; i < ca.length; i++) {
+      c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1, c.length);
+      }
+      if (c.indexOf(nameEQ) == 0) {
+        return c.substring(nameEQ.length, c.length);
+      }
+    }
+    return '';
+  }
+  var delete_cookie = function (name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  };
+  if (readCookie("_sales24JWT") != '') {
+    document.getElementById('userNotLoggedIn').style.display = "none"
+    document.getElementById('userLogin').style.display = "block"
+    console.log(readCookie("_sales24JWT"))
+    var user_data = JSON.parse(readCookie("_sales24JWT"))
+    document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
+      document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
+  }
+
+  function logout() {
+    var logout_confirm = confirm("Do you wish to logout?")
+    if (logout_confirm) {
+      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
+      document.getElementById("loader").style.display = "block";
+      var logout_operation = async () => await fetch(url, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/text',
+          'Authorization': user_data.Token
         }
-        return '';
+      }).then((res) => {
+        return res.text().then((data) => {
+          alert("You Have successfully Logged out of current session.")
+          delete_cookie("_sales24JWT")
+          window.location = 'index1.html';
+        })
+      }).catch((err) => {
+        alert("Something went wrong. Please login Again")
+        delete_cookie("_sales24JWT")
+        window.location = 'index1.html';
+      })
+      logout_operation()
     }
-    var delete_cookie = function (name) {
-        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    };
-    if (readCookie("_sales24JWT")!='') {
-        document.getElementById('userNotLoggedIn').style.display="none"
-        document.getElementById('userLogin').style.display="block"
-        console.log(readCookie("_sales24JWT"))
-        var user_data = JSON.parse(readCookie("_sales24JWT"))
-        document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
-        document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
-    }
+  }
 
-    function logout() {
-        var logout_confirm = confirm("Do you wish to logout?")
-        if (logout_confirm) {
-            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
-            document.getElementById("loader").style.display = "block";
-            var logout_operation = async () => await fetch(url, {
-                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/text',
-                    'Authorization': user_data.Token
-                }
-            }).then((res) => {
-                return res.text().then((data) => {
-                    alert("You Have successfully Logged out of current session.")
-                    delete_cookie("_sales24JWT")
-                    window.location = 'index1.html';
-                })
-            }).catch((err) => {
-                alert("Something went wrong. Please login Again")
-                delete_cookie("_sales24JWT")
-                window.location = 'login.html';
-            })
-            logout_operation()
+
+  function logoutAll() {
+    var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
+    if (logoutAll_confirm) {
+      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
+      document.getElementById("loader").style.display = "block";
+      var logoutAll_operation = async () => await fetch(url, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/text',
+          'Authorization': user_data.Token
         }
+      }).then((res) => {
+        return res.text().then((data) => {
+          alert("You Have successfully Logged out of all devices.")
+          delete_cookie("_sales24JWT")
+          window.location = 'index1.html';
+        })
+      }).catch((err) => {
+        alert("Something went wrong. Please login Again")
+        delete_cookie("_sales24JWT")
+        window.location = 'index1.html';
+      })
+      logoutAll_operation()
     }
-
-
-    function logoutAll() {
-        var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
-        if (logoutAll_confirm) {
-            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
-            document.getElementById("loader").style.display = "block";
-            var logoutAll_operation = async () => await fetch(url, {
-                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/text',
-                    'Authorization': user_data.Token
-                }
-            }).then((res) => {
-                return res.text().then((data) => {
-                    alert("You Have successfully Logged out of all devices.")
-                    delete_cookie("_sales24JWT")
-                    window.location = 'index1.html';
-                })
-            }).catch((err) => {
-                alert("Something went wrong. Please login Again")
-                delete_cookie("_sales24JWT")
-                window.location = 'login.html';
-            })
-            logoutAll_operation()
-        }
-    }
+  }
   document.getElementById('recentlyPostedAds').addEventListener('click', (e) => {
     e.preventDefault()
-    window.location="adSearch.html?key=recent"
+    window.location = "adSearch.html?key=recent"
   })
   var myIndex = 0;
   carousel();
@@ -319,7 +326,7 @@
     return '';
   }
 
-  var generateCard = async function (id, name, desc, price, location, src) {
+  var generateCard = async function (id, name, desc, price, location, src, color, likes) {
 
     var elem = document.createElement('div');
     elem.className = "col-lg-3 col-md-4 col-6"
@@ -348,7 +355,7 @@
     third_para.innerHTML = desc
 
     var fourth_para = document.createElement('p')
-    fourth_para.className = "text-lg-center fa fa-heart"
+    fourth_para.className = "text-lg-center fa"
     fourth_para.innerHTML = "&#xf041;  " + location.bold()
 
 
@@ -356,18 +363,103 @@
     fifth_para.className = "text-lg-center"
     fifth_para.innerHTML = "&#x20b9 " + price.bold()
 
+    var like_dev = document.createElement('p')
+    var i_element = document.createElement('button')
+    i_element.className = "fa fa-heart"
+    i_element.id = id + "/heart"
+    i_element.style.color = color
+    i_element.style.fontSize = 24
+    i_element.onclick = function () { liked(id + "/heart") };
 
-    second_div.appendChild(second_para)
-    second_div.appendChild(image)
-    second_div.appendChild(third_para)
-    second_div.appendChild(fourth_para)
-    second_div.appendChild(fifth_para)
+    like_dev.appendChild(i_element)
+    like_dev.append(" " + likes)
 
-    anch.appendChild(second_div)
-    elem.appendChild(anch)
+    anch.appendChild(second_para)
+    anch.appendChild(image)
+    anch.appendChild(third_para)
+    anch.appendChild(fourth_para)
+    anch.appendChild(fifth_para)
+    second_div.appendChild(anch)
+
+
+    second_div.appendChild(like_dev)
+    elem.appendChild(second_div)
 
 
     document.getElementById("mainHead").appendChild(elem)
+
+  }
+
+  async function liked(id) {
+
+    if (readCookie("_sales24JWT") == '') {
+      login()
+    }
+    var heart = document.getElementById(id)
+    if (heart.style.color == "grey") {
+      alert(id.replace("/heart", ""))
+      await wishlist(id.replace("/heart", ""))
+      return
+    }
+    await remove_wishlist(id.replace("/heart", ""))
+  }
+
+  var wishlist = async function (id) {
+    const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/wishlistad"
+    console.log(user_data.Token)
+    await fetch(url, {
+      Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+      method: 'POST',
+      body: JSON.stringify({ "AD_KEY": id }),
+      headers: {
+        'Content-Type': 'application/JSON',
+        'Authorization': user_data.Token
+      }
+    }).then((res) => {
+      console.log(res)
+      if (res.statusCode == 400) {
+        document.getElementById(id + '/heart').style.color = "grey"
+        return
+      }
+      else if (res.statusCode == 500) {
+        alert("Something went wrong.Please try again.")
+        return
+      }
+      document.getElementById(id + '/heart').style.color = "red"
+    }).catch((err) => {
+      alert("Something went wrong. Please login Again")
+      console.log(err)
+      // delete_cookie("_sales24JWT")
+      // window.location = 'login.html';
+    })
+  }
+
+
+  var remove_wishlist = async (id) => {
+    const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/removewishlist"
+    await fetch(url, {
+      Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+      method: 'POST',
+      body: JSON.stringify({ "AD_KEY": id }),
+      headers: {
+        'Content-Type': 'application/JSON',
+        'Authorization': user_data.Token
+      }
+    }).then((res) => {
+      if (res.statusCode == 400) {
+        document.getElementById(id + '/heart').style.color = "red"
+        return
+      }
+      else if (res.statusCode == 500) {
+        alert("Something went wrong.Please try again.")
+        return
+      }
+      document.getElementById(id + '/heart').style.color = "grey"
+    }).catch((err) => {
+      alert("Something went wrong. Please login Again")
+      // delete_cookie("_sales24JWT")
+      // window.location = 'login.html';
+    })
   }
 
   var ads_posted = async () => {
@@ -393,15 +485,28 @@
         document.getElementById("loader").style.display = "block"
         var total_data = JSON.parse(data)
         total_data = total_data.ITEMS
+        console.log(total_data)
         if (total_data.length == 0) {
           document.getElementById("mainHead").style.display = "block";
           document.getElementById("loader").style.display = "none"
           document.getElementById("noAds").style.display = "block"
           return;
         }
-        document.getElementById("mainHead").innerHTML=""
+        document.getElementById("mainHead").innerHTML = ""
         for (var i = 0; i < total_data.length; i++) {
-          generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION)
+          var color = "grey";
+          console.log("Color before " + color)
+          if (readCookie("_sales24JWT") != '') {
+            var user_liked = JSON.parse(readCookie("_sales24JWT")).LIKED_ADS
+            console.log(user_liked)
+            var position = user_liked.indexOf(total_data[i].AD_KEY)
+            console.log(position)
+            if (position != -1) {
+              color = "red"
+            }
+          }
+          console.log("Color after " + color)
+          generateCard(total_data[i].AD_KEY, total_data[i].PRODUCT_NAME, total_data[i].PRODUCT_DESCRIPTION, total_data[i].PRODUCT_PRICE, total_data[i].PRODUCT_LOCATION, total_data[i].S3_LOCATION, color, total_data[i].LIKES)
           if (i == total_data.length - 1) {
             document.getElementById("mainHead").style.display = "block";
             document.getElementById("loader").style.display = "none"
@@ -421,7 +526,7 @@
       })
 
   }
-//ads_posted()
+  //ads_posted()
 </script>
 
 </html>

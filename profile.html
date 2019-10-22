@@ -173,130 +173,16 @@
                 <br>
                 <!-- Button -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="singlebutton"></label>
-                    <div class="col-md-4">
-                        <button id="singlebutton" name="singlebutton" class="btn btn-primary">Close</button>
+                        <label class="col-md-4 control-label" for="button1id"></label>
+                        <div class="col-md-8">
+                            <button id="closeButton" name="closeButton" class="btn btn-primary">Close</button>
+                        </div>
                     </div>
-                </div>
             </fieldset>
         </form>
     </div>
 </body>
-<script>
-    function readCookie(name) {
-        var i, c, ca, nameEQ = name + "=";
-        ca = document.cookie.split(';');
-        for (i = 0; i < ca.length; i++) {
-            c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1, c.length);
-            }
-            if (c.indexOf(nameEQ) == 0) {
-                return c.substring(nameEQ.length, c.length);
-            }
-        }
-        return 'None';
-    }
-    if (readCookie("_sales24JWT") == 'None') {
-        var requestedUrl=window.location
-      sessionStorage.setItem('requestedURL',requestedUrl)
-      window.location="login.html"
-    }
-
-    var user_data = JSON.parse(readCookie("_sales24JWT"))
-    document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
-        document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
-
-    var delete_cookie = function (name) {
-        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    };
-
-    function logout() {
-        var logout_confirm = confirm("Do you wish to logout?")
-        if (logout_confirm) {
-            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
-            document.getElementById("loader").style.display = "block";
-            var logout_operation = async () => await fetch(url, {
-                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/text',
-                    'Authorization': user_data.Token
-                }
-            }).then((res) => {
-                return res.text().then((data) => {
-                    alert("You Have successfully Logged out of current session.")
-                    delete_cookie("_sales24JWT")
-                    window.location = 'index1.html';
-                })
-            }).catch((err) => {
-                alert("Something went wrong. Please login Again")
-                delete_cookie("_sales24JWT")
-                window.location = 'login.html';
-            })
-            logout_operation()
-        }
-    }
-
-
-    function logoutAll() {
-        var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
-        if (logoutAll_confirm) {
-            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
-            document.getElementById("loader").style.display = "block";
-            var logoutAll_operation = async () => await fetch(url, {
-                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/text',
-                    'Authorization': user_data.Token
-                }
-            }).then((res) => {
-                return res.text().then((data) => {
-                    alert("You Have successfully Logged out of all devices.")
-                    delete_cookie("_sales24JWT")
-                    window.location = 'index1.html';
-                })
-            }).catch((err) => {
-                alert("Something went wrong. Please login Again")
-                delete_cookie("_sales24JWT")
-                window.location = 'login.html';
-            })
-            logoutAll_operation()
-        }
-    }
-    var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me"
-    document.getElementById("userProfile").style.display = "none"
-    document.getElementById("loader").style.display = "block";
-    var profile_details = async () => await fetch(url, {
-        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/text',
-            'Authorization': user_data.Token
-        }
-    }).then((res) => {
-        return res.text().then((data) => {
-            data = JSON.parse(data)
-            document.getElementById("username").innerHTML = data.USERNAME
-            document.getElementById("name").innerHTML = data.NAME
-            document.getElementById("email").innerHTML = data.EMAIL
-            document.getElementById("mobileNumber").innerHTML = data.MOBILE_NUMBER
-            document.getElementById("totalAdsPosted").innerHTML = data.TOTAL_ADS_POSTED
-            document.getElementById("LastLogin").innerHTML = data.LAST_LOGIN
-            document.getElementById("userProfile").style.display = "block"
-            document.getElementById("loader").style.display = "none";
-        })
-    }).catch((err) => {
-        alert("Something went wrong. Please login Again")
-        delete_cookie("_sales24JWT")
-        window.location = 'login.html';
-    })
-    profile_details()
-    document.getElementById('userProfile').addEventListener('submit', (e) => {
-        e.preventDefault()
-        window.location = 'index1.html';
-    })
-</script>
+<script src="js/app.js"></script>
+<script src="js/profile.js"></script>
 
 </html>
