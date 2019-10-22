@@ -2,15 +2,29 @@
 <html lang="en">
 
 <head>
-    <title id="pageTitle"></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <link rel="icon" type="image/png" href="images/favicon.png" />
-    <style>
-  hr {
+  <title>SALES24</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <style>
+      .footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: black;
+   color: white;
+}
+    body {
+      background-color: #EBEDEF;
+    }
+
+    hr {
       border: 0;
       clear: both;
       display: block;
@@ -18,256 +32,191 @@
       background-color: grey;
       height: 1px;
     }
-.border-primary {
-            border: 1px solid grey;
-        }
-        /* Center the loader */
-        #loader {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            z-index: 1;
-            width: 150px;
-            height: 150px;
-            margin: -75px 0 0 -75px;
-            border: 16px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 16px solid #3498db;
-            width: 120px;
-            height: 120px;
-            -webkit-animation: spin 2s linear infinite;
-            animation: spin 2s linear infinite;
-        }
 
-        @-webkit-keyframes spin {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
+    .border-primary {
+      border: 1px solid grey;
+      padding: 20px;
+    }
 
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
+    .w3-card-4 {
+      object-fit: cover;
+      margin: 5px;
+      padding: 5px
+    }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
+    .w3-image {
+      width: 100% !important;
+      height: 300px !important;
+      object-fit: cover;
+      
+      /* Gray border */
+      border-radius: 4px;
+      /* Rounded border */
+      /* Some padding */
+      width: 150px;
+      /* Set a small width */
+      object-fit: cover;
+    }
 
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+    /* Center the loader */
+    #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
 
-        /* Add animation to "page content" */
-        .animate-bottom {
-            position: relative;
-            -webkit-animation-name: animatebottom;
-            -webkit-animation-duration: 1s;
-            animation-name: animatebottom;
-            animation-duration: 1s
-        }
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
 
-        @-webkit-keyframes animatebottom {
-            from {
-                bottom: -100px;
-                opacity: 0
-            }
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
 
-            to {
-                bottom: 0px;
-                opacity: 1
-            }
-        }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
 
-        @keyframes animatebottom {
-            from {
-                bottom: -100px;
-                opacity: 0
-            }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
 
-            to {
-                bottom: 0;
-                opacity: 1
-            }
-        }
+    /* Add animation to "page content" */
+    .animate-bottom {
+      position: relative;
+      -webkit-animation-name: animatebottom;
+      -webkit-animation-duration: 1s;
+      animation-name: animatebottom;
+      animation-duration: 1s
+    }
 
-        #myDiv {
-            display: none;
-            text-align: center;
-        }
-    </style>
+    @-webkit-keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0px;
+        opacity: 1
+      }
+    }
+
+    @keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0;
+        opacity: 1
+      }
+    }
+
+    #myDiv {
+      display: none;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
-    <div id="loader" style="display: none;"></div>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">SALES24.com</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="index.html">Home</a></li>
-                <li><a href="#">DEALS</a></li>
-                <li><a href="#">ABOUT</a></li>
-                <li><a href="#">CONTACT</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="navbar-text" id="lastLogin"></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" href="#"
-                        role="button" aria-haspopup="true" aria-expanded="false">
-                        Hi,User
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="postAd.html">Post AD</a></li>
-                        <li><a href="adsPosted.html">AD's Posted</a></li>
-                        <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
-                        <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="container">
-          
-        
-  <!-- Portfolio Item Heading -->
-  <h1 class="my-4">Page Heading
-        <small>Secondary Text</small>
-      </h1>
-    
-      <!-- Portfolio Item Row -->
-      <div class="row">
-    
-        <div class="col-md-8" style="background-color: khaki; height: 100%;
-        width: 60%">
-                <img src="images/bike.jpg" class="center" style="display:block;
-                margin:auto;" id="productImage">
-        </div>
-    
-        <div class="col-md-4">
-          <h3 class="my-3">Project Description</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
-          <h3 class="my-3">Project Details</h3>
-          <ul>
-            <li>Lorem Ipsum</li>
-            <li>Dolor Sit Amet</li>
-            <li>Consectetur</li>
-            <li>Adipiscing Elit</li>
-          </ul>
-        </div>
-    
+  <div id="loader" style="display: none;"></div>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index1.html">SALES24.com</a>
       </div>
-      <!-- /.row -->
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index1.html">Home</a></li>
+        <li><a href="deals.html">DEALS</a></li>
+        <li><a href="#">ABOUT</a></li>
+        <li><a href="#">CONTACT</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" id="userNotLoggedIn">
+        <li><a href="javascript:void(0)" onclick="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+        </li>
+        <li><a href="javascript:void(0)" onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" id="userLogin" style="display: none;">
+        <li class="navbar-text" id="lastLogin"></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userActions" data-toggle="dropdown" href="#" role="button"
+            aria-haspopup="true" aria-expanded="false">
+            Hi,User
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="postAd.html">Post AD</a></li>
+            <li><a href="adsPosted.html">AD's Posted</a></li>
+            <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
+            <li><a href="javascript:void(0)" onclick="logoutAll()">Logout Of All Devices</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container border-primary" style="background-color:whitesmoke;height:0%;">
+      <button id="closeButton" name="closeButton" class="btn btn-primary" style="margin:0 auto;display:block;float: right;">Close</button>
+    <h3 class="font-weight-light mt-4 mb-0"><b id="productName">PRODUCT NAME</b></h3>
+    <hr color="grey">
+    <div class="container border-primary"  align="center" style="height: 100%;width:55%;float:left;background-color: white;margin-bottom: 10px;">
+        <img src="images/slider/2.jpg" class="w3-image">
+    </div>
+    <div class="container border-primary" style="height:50%;width:44%;float: right;background-color: white;margin-bottom: 10px;">
+       <b><p style="font-size: 20px;font-family:Georgia;float: left;">PRICE: &#x20b9<span id="productPrice"> </span></p></b>
+       <button class="fa fa-heart" style="float: right;background-color: transparent;border: none;font-size: 20px;color:grey;"></button>
+       <!-- <p class="fa fa-heart" style="float: right;font-size: 20px;color:grey" ></p> -->
+       <br>
+       <br>
+       <p style="float: left;font-family:Lucida Sans Unicode;font-size: 20px;" id="productName">Product Name</p>
+        <br>
+        <br>
+       <p style="float: left;font-family:Lucida Sans Unicode;font-size: 20px;" id="productLocation">Location</p>
+    </div>
+    <br>
+    <div class="container border-primary" style="height: 30%;width:44% ;float:right;background-color: white">
+        <p style="font-size: 20px;font-family:Georgia">Seller Description</p>
+        <p style="font-size: 20px;font-family:Georgia;float: left;">Username</p>
+        <br><br>
+        <p style="font-size: 20px;font-family:Georgia;text-align: center;"><i class="fa fa-phone"></i>********* <span><a href="#" style="font-family:'Courier New', Courier, monospace;color: blue;">Show Number</a></span></p>
+    </div>
+    <div class="container border-primary" style="height:30%;width:55%;float: left;background-color: white;margin-right: 1%;">
+        <b><p style="font-size: 20px;font-family:Georgia">Description</p></b>
+        <p style="text-align: left;">Product Description:<span id="productDescription"></span></p>
+        <p style="text-align: left;">Product Category:<span id="productCategory"></span></p>
+        <p style="text-align: left;">Product Brand:<span id="productBrand"></span></p>
+    </div>
+    <b><p style="font-size: 15px;">AD ID <span id="adID">1234546</span></p></b>
     
-    
-        </div>
-</body>
-<script>
-
-    function readCookie(name) {
-        var i, c, ca, nameEQ = name + "=";
-        ca = document.cookie.split(';');
-        for (i = 0; i < ca.length; i++) {
-            c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1, c.length);
-            }
-            if (c.indexOf(nameEQ) == 0) {
-                return c.substring(nameEQ.length, c.length);
-            }
-        }
-        return 'None';
-    }
-    var delete_cookie = function (name) {
-        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    };
-    if (readCookie("_sales24JWT") == 'None') {
-        window.location = 'login.html';
-    }
-
-    var user_data = JSON.parse(readCookie("_sales24JWT"))
-    document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
-        document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
-
-    function logout() {
-        var logout_confirm = confirm("Do you wish to logout?")
-        if (logout_confirm) {
-            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
-            document.getElementById("loader").style.display = "block";
-            var logout_operation = async () => await fetch(url, {
-                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/text',
-                    'Authorization': user_data.Token
-                }
-            }).then((res) => {
-                return res.text().then((data) => {
-                    alert("You Have successfully Logged out of current session.")
-                    delete_cookie("_sales24JWT")
-                    window.location = 'index1.html';
-                })
-            }).catch((err) => {
-                alert("Something went wrong. Please login Again")
-                delete_cookie("_sales24JWT")
-                window.location = 'login.html';
-            })
-            logout_operation()
-        }
-    }
-
-
-    function logoutAll() {
-        var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
-        if (logoutAll_confirm) {
-            const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
-            document.getElementById("loader").style.display = "block";
-            var logoutAll_operation = async () => await fetch(url, {
-                Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/text',
-                    'Authorization': user_data.Token
-                }
-            }).then((res) => {
-                return res.text().then((data) => {
-                    alert("You Have successfully Logged out of all devices.")
-                    delete_cookie("_sales24JWT")
-                    window.location = 'index1.html';
-                })
-            }).catch((err) => {
-                alert("Something went wrong. Please login Again")
-                delete_cookie("_sales24JWT")
-                window.location = 'login.html';
-            })
-            logoutAll_operation()
-        }
-    }
-    var image_data = async function () {
-        var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/getimage"
-        fetch(url, {
-            Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify({ key:"satishtest1/AD5/5.jpg" }),
-            headers: {
-                'Authorization': user_data.Token
-            }
-        }).then((res) => {
-            return res.text().then((data) => {
-                document.getElementById(id).src = data
-            }).catch((err) => {
-                return err
-            })
-        })
-            .catch((err) => {
-                alert("Something went wrong.Please login again.")
-                delete_cookie("_sales24JWT")
-                window.location = "login.html"
-            })
-    }
-    </script>
-    </html>
+  </div>
+ 
+  <div class="footer">
+        <p><span style="text-align: left;">Posted by: Satish Fulwani</span> 
+        <span style="text-align: right;float:right">Contact information: <a href="mailto:satish.fulwani63@gmail.com">satish.fulwani63@gmail.com</a></span></p>
+  </div>
+  <br>
+  <br>
+  
+  </body>
+<script src="js/app.js"></script>
+<script src="js/adDetail1.js"></script>
+</html>

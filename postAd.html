@@ -10,6 +10,14 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <style>
+     .footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: black;
+   color: white;
+}
     body{
       background-color: #EBEDEF ;
     }
@@ -218,168 +226,12 @@
       </fieldset>
     </form>
   </div>
+  <div class="footer">
+      <p><span style="text-align: left;">Posted by: Satish Fulwani</span> 
+      <span style="text-align: right;float:right">Contact information: <a href="mailto:satish.fulwani63@gmail.com">satish.fulwani63@gmail.com</a></span></p>
+</div>
 </body>
-
-<script>
-  function readCookie(name) {
-    var i, c, ca, nameEQ = name + "=";
-    ca = document.cookie.split(';');
-    for (i = 0; i < ca.length; i++) {
-      c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1, c.length);
-      }
-      if (c.indexOf(nameEQ) == 0) {
-        return c.substring(nameEQ.length, c.length);
-      }
-    }
-    return 'None';
-  }
-  if (readCookie("_sales24JWT") == 'None') {
-    var requestedUrl=window.location
-    sessionStorage.setItem('requestedURL',requestedUrl)
-    window.location = 'login.html';
-  }
-
-  var user_data = JSON.parse(readCookie("_sales24JWT"))
-  document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
-    document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
-
-  var delete_cookie = function (name) {
-    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  };
-
-  function logout() {
-    var logout_confirm = confirm("Do you wish to logout?")
-    if (logout_confirm) {
-      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logout"
-      document.getElementById("loader").style.display = "block";
-      var logout_operation = async () => await fetch(url, {
-        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/text',
-          'Authorization': user_data.Token
-        }
-      }).then((res) => {
-        return res.text().then((data) => {
-          alert("You Have successfully Logged out of current session.")
-          delete_cookie("_sales24JWT")
-          window.location = 'index1.html';
-        })
-      }).catch((err) => {
-        alert("Something went wrong. Please login Again")
-        delete_cookie("_sales24JWT")
-        window.location = 'login.html';
-      })
-      logout_operation()
-    }
-  }
-
-
-  function logoutAll() {
-    var logoutAll_confirm = confirm("Do you wish to logout from All Devices?")
-    if (logoutAll_confirm) {
-      const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/logoutall"
-      document.getElementById("loader").style.display = "block";
-      var logoutAll_operation = async () => await fetch(url, {
-        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/text',
-          'Authorization': user_data.Token
-        }
-      }).then((res) => {
-        return res.text().then((data) => {
-          alert("You Have successfully Logged out of all devices.")
-          delete_cookie("_sales24JWT")
-          window.location = 'index1.html';
-        })
-      }).catch((err) => {
-        alert("Something went wrong. Please login Again")
-        delete_cookie("_sales24JWT")
-        window.location = 'login.html';
-      })
-      logoutAll_operation()
-    }
-  }
-
-
-  var postAdForm = document.getElementById("postAdForm")
-
-  postAdForm.addEventListener('submit', async (e) => {
-    var productName = document.getElementById('productName').value
-    var productDescription = document.getElementById('productDescription').value
-    var productCategory = document.getElementById('productCategory').value
-    var productPrice = document.getElementById('productPrice').value
-    var productLocation = document.getElementById('productLocation').value
-    var productBrand= document.getElementById('productBrand').value
-    var input = document.querySelector('input[type=file]');
-    var file = input.files[0],
-      reader = new FileReader();
-
-    var productImage = "";
-    document.getElementById("postAdForm").style.display = "none"
-    document.getElementById("loader").style.display = "block";
-    function image() {
-      return new Promise((resolve, reject) => {
-        reader.onloadend = function () {
-          // Since it contains the Data URI, we should remove the prefix and keep only Base64 string
-          var b64 = reader.result.replace(/^data:.+;base64,/, '');
-          //console.log(b64); //-> "R0lGODdhAQABAPAAAP8AAAAAACwAAAAAAQABAAACAkQBADs="
-          resolve(b64)
-        }
-        reader.readAsDataURL(file)
-      })
-    };
-
-    var image_data = await image().then((res) => productImage = res)
-    var postUrl = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/postad"
-    var post_product = (async () => {
-      var body = {
-        productName,
-        productDescription,
-        productCategory,
-        productPrice,
-        productLocation,
-        productImage,
-        productBrand
-      }
-      document.getElementById("postAdForm").style.display = "none"
-      document.getElementById("loader").style.display = "block";
-
-      await fetch(postUrl, {
-        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
-        method: 'POST',
-        'body': JSON.stringify(body),
-        headers: {
-          'Content-Type': 'application/text',
-          'Authorization': user_data.Token,
-        }
-      }).then((res) => {
-        if (res.statusCode == 400) {
-          alert("Something went wrong please try again.")
-          document.getElementById("postAdForm").style.display = "block"
-          document.getElementById("loader").style.display = "none";
-          return;
-        }
-        return res.text().then((data) => {
-          alert("Add posted successfully.")
-          window.location = 'adsPosted.html'
-        })
-
-      }).catch((err) => {
-        alert("Something went wrong. Please try again.")
-        document.getElementById("postAdForm").style.display = "block"
-        document.getElementById("loader").style.display = "none";
-        return;
-
-      })
-    })
-    await post_product()
-  })
-
-
-</script>
+<script src="js/app.js"></script>
+<script src="js/postAD.js"></script>
 
 </html>

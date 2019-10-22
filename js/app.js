@@ -22,20 +22,6 @@ function login() {
     window.location = "login.html"
 }
 
-function readCookie(name) {
-    var i, c, ca, nameEQ = name + "=";
-    ca = document.cookie.split(';');
-    for (i = 0; i < ca.length; i++) {
-        c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1, c.length);
-        }
-        if (c.indexOf(nameEQ) == 0) {
-            return c.substring(nameEQ.length, c.length);
-        }
-    }
-    return '';
-}
 
 var delete_cookie = function (name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -194,13 +180,19 @@ async function liked(id) {
         login()
         return;
     }
+    var likes=document.getElementById(id.replace("/heart", "/totalLikes"))
+    var value=parseInt(likes.innerText)
     var heart = document.getElementById(id)
     if (heart.style.color == "grey") {
         document.getElementById(id).style.color = "red"
+        likes.innerText=" "+(value+1)
+        document.getElementById(id).disabled=true
         await wishlist(id.replace("/heart", ""))
         return
     }
     document.getElementById(id).style.color = "grey"
+    likes.innerText=" "+(value-1)
+    document.getElementById(id).disabled=true
     await remove_wishlist(id.replace("/heart", ""))
 }
 
@@ -228,6 +220,7 @@ var wishlist = async function (id) {
             data=JSON.parse(data)
             document.getElementById(id + '/heart').style.color = "red"
             document.getElementById(id+"/totalLikes").innerText=" "+data.likes
+            document.getElementById(id+'/heart').disabled=false
         })
     }).catch((err) => {
         document.getElementById(id + '/heart').style.color = "grey"
@@ -265,6 +258,7 @@ var remove_wishlist = async (id) => {
             data=JSON.parse(data)
             document.getElementById(id + '/heart').style.color = "grey"
             document.getElementById(id+"/totalLikes").innerText=" "+data.likes
+            document.getElementById(id+'/heart').disabled=false
         })
 
     }).catch((err) => {
@@ -330,7 +324,7 @@ var recentlyAdsPosted = async () => {
                 var color = "grey"
                 if (readCookie("_sales24JWT") != '') {
                     var flag=await likedADS(total_data[i].AD_KEY)
-                    if (flag==true) {
+                    if (flag=="true") {
                         color = "red"
                     }
                 }
@@ -356,7 +350,8 @@ var recentlyAdsPosted = async () => {
             alert("Something Went Wrong.")
             document.getElementById("loader").style.display = "none";
             document.getElementById("mainHead").style.display = "block"
-            window.location = "index1.html"
+            delete_cookie("_sales24JWT")
+            window.location = "index.html"
         })
 
 
@@ -409,7 +404,7 @@ var postByCategory = async (category) => {
                 var color = "grey";
                 if (readCookie("_sales24JWT") != '') {
                     var flag=await likedADS(total_data[i].AD_KEY)
-                    if (flag) {
+                    if (flag=="true") {
                         color = "red"
                     }
                 }
@@ -435,9 +430,10 @@ var postByCategory = async (category) => {
     })
         .catch((err) => {
             alert("Something Went Wrong. Please login again.")
-            alert(err)
             document.getElementById("loader").style.display = "none";
             document.getElementById("mainHead").style.display = "block"
+            delete_cookie("_sales24JWT")
+            window.location = "index.html"
         })
 
 }
