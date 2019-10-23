@@ -28,7 +28,7 @@
       border: 0;
       clear: both;
       display: block;
-      width: 96%;
+      width: 100%;
       background-color: grey;
       height: 1px;
     }
@@ -176,36 +176,36 @@
 
   <div class="container border-primary" style="background-color:whitesmoke;height:0%;">
       <button id="closeButton" name="closeButton" class="btn btn-primary" style="margin:0 auto;display:block;float: right;">Close</button>
-    <h3 class="font-weight-light mt-4 mb-0"><b id="productName">PRODUCT NAME</b></h3>
+    <h3 class="font-weight-light mt-4 mb-0"><b id="productNameHead" style="font-family:Georgia">PRODUCT NAME</b></h3>
     <hr color="grey">
     <div class="container border-primary"  align="center" style="height: 100%;width:55%;float:left;background-color: white;margin-bottom: 10px;">
-        <img src="images/slider/2.jpg" class="w3-image">
+        <img src="images/slider/2.jpg" class="w3-image" id="productImage">
     </div>
     <div class="container border-primary" style="height:50%;width:44%;float: right;background-color: white;margin-bottom: 10px;">
        <b><p style="font-size: 20px;font-family:Georgia;float: left;">PRICE: &#x20b9<span id="productPrice"> </span></p></b>
-       <button class="fa fa-heart" style="float: right;background-color: transparent;border: none;font-size: 20px;color:grey;"></button>
+       <p><button class="fa fa-heart" style="float: right;background-color: transparent;border: none;font-size: 20px;color:grey;" id="likeButton"></button><span style="float: right;display:none"> 1</span></p>
        <!-- <p class="fa fa-heart" style="float: right;font-size: 20px;color:grey" ></p> -->
        <br>
        <br>
-       <p style="float: left;font-family:Lucida Sans Unicode;font-size: 20px;" id="productName">Product Name</p>
+       <p style="float: left;font-family:Georgia;font-size: 20px;" id="productName">Product Name</p>
         <br>
         <br>
-       <p style="float: left;font-family:Lucida Sans Unicode;font-size: 20px;" id="productLocation">Location</p>
+       <p style="float: left;font-family:Georgia;font-size: 20px;"><i class="fa">&#xf041; </i><span id="productLocation">Location</span></p>
     </div>
     <br>
     <div class="container border-primary" style="height: 30%;width:44% ;float:right;background-color: white">
-        <p style="font-size: 20px;font-family:Georgia">Seller Description</p>
-        <p style="font-size: 20px;font-family:Georgia;float: left;">Username</p>
+        <p style="font-size: 20px;font-family:Georgia">Seller Description:</p>
+        <p style="font-size: 20px;font-family:Georgia;float: left;" id="productUsername">Username</p>
         <br><br>
-        <p style="font-size: 20px;font-family:Georgia;text-align: center;"><i class="fa fa-phone"></i>********* <span><a href="#" style="font-family:'Courier New', Courier, monospace;color: blue;">Show Number</a></span></p>
+        <p style="font-size: 20px;font-family:Georgia;text-align: center;"><i class="fa fa-phone"></i>********* <span><a href="#" style="color: blue;">CALL</a></span></p>
     </div>
     <div class="container border-primary" style="height:30%;width:55%;float: left;background-color: white;margin-right: 1%;">
         <b><p style="font-size: 20px;font-family:Georgia">Description</p></b>
-        <p style="text-align: left;">Product Description:<span id="productDescription"></span></p>
-        <p style="text-align: left;">Product Category:<span id="productCategory"></span></p>
-        <p style="text-align: left;">Product Brand:<span id="productBrand"></span></p>
+        <p style="text-align: left;font-family:Georgia;font-size: 15px">Product Description:<span id="productDescription"></span></p>
+        <p style="text-align: left;font-family:Georgia;font-size: 15px">Product Category:<span id="productCategory"></span></p>
+        <p style="text-align: left;font-family:Georgia;font-size: 15px">Product Brand:<span id="productBrand"></span></p>
     </div>
-    <b><p style="font-size: 15px;">AD ID <span id="adID">1234546</span></p></b>
+  
     
   </div>
  
