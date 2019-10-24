@@ -1,6 +1,5 @@
-if (readCookie("_sales24JWT") == '') {
-    login()
-    return;
+if (readCookie("_sales24JWT") =='') {
+    login();
 }
 
 var user_data = JSON.parse(readCookie("_sales24JWT"))

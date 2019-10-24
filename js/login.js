@@ -42,8 +42,7 @@ form.addEventListener('submit', (e) => {
                 document.getElementById("login-form").style.display = "none";
                 document.getElementById("loader").style.display = "block"
                 data = JSON.parse(data)
-                var JWTdata = JSON.stringify({ "Token": data.Token, "username": username, "lastLogin": data.Last_Login ,"LIKED_ADS":data.LIKED_ADS})
-                var JWTLikedADS= JSON.stringify({"LIKED_ADS":data.LIKED_ADS})
+                var JWTdata = JSON.stringify({ "Token": data.Token, "username": username,"fullName":data.FULL_NAME, "lastLogin": data.Last_Login})
 
                 delete_cookie("_sales24JWT")
                 writeCookie("_sales24JWT", JWTdata, 2)

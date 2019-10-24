@@ -33,7 +33,7 @@ if (readCookie("_sales24JWT") != '') {
     document.getElementById('userLogin').style.display = "block"
     }
     var user_data = JSON.parse(readCookie("_sales24JWT"))
-    document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
+    document.getElementById("userActions").innerHTML = "Hi, " + user_data.fullName,
         document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
 }
 
@@ -57,8 +57,9 @@ function logout() {
             })
         }).catch((err) => {
             alert("Something went wrong. Please login Again")
-            delete_cookie("_sales24JWT")
-            window.location = 'index1.html';
+            console.log(err)
+            // delete_cookie("_sales24JWT")
+            // window.location = 'index1.html';
         })
         logout_operation()
     }
@@ -207,11 +208,11 @@ var wishlist = async function (id) {
             'Authorization': user_data.Token
         }
     }).then((res) => {
-        if (res.statusCode == 400) {
+        if (res.status == 400) {
             document.getElementById(id + '/heart').style.color = "grey"
             return
         }
-        else if (res.statusCode == 500) {
+        else if (res.status == 500) {
             alert("Something went wrong.Please try again.")
             return
         }
@@ -344,14 +345,18 @@ var recentlyAdsPosted = async () => {
                     break;
                 }
             }
+            if (sessionStorage.getItem('lastSearchedKey')==null) {
+                document.getElementById('lastAd').style.display = "block"
+            }
         })
     })
         .catch((err) => {
             alert("Something Went Wrong.")
             document.getElementById("loader").style.display = "none";
             document.getElementById("mainHead").style.display = "block"
-            delete_cookie("_sales24JWT")
-            window.location = "index.html"
+            console.log(err)
+            // delete_cookie("_sales24JWT")
+            // window.location = "index.html"
         })
 
 
@@ -423,7 +428,7 @@ var postByCategory = async (category) => {
                     break
                 }
             }
-            if (total_data.length < 3) {
+            if (sessionStorage.getItem('lastSearchedKey')==null) {
                 document.getElementById('lastAdCategory').style.display = "block"
             }
         })

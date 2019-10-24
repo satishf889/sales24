@@ -9,7 +9,8 @@ exports.handler = async (event) => {
     console.log("Body recived: ", body)
     var username = body.AD_KEY.split("/")[0]
     var productDetail;
-    var response
+    var response;
+    var getAD = false;
 
     var params = {
         TableName: "ADVERTISEMENT",
@@ -23,6 +24,7 @@ exports.handler = async (event) => {
         .then(async (res) => {
             console.log("Response after search is: ", res)
             if (res.Item) {
+                getAD = true
                 productDetail = res.Item
                 var update_params = {
                     TableName: "ADVERTISEMENT",
@@ -38,43 +40,58 @@ exports.handler = async (event) => {
                 }
             }
             else {
-                return response = {
+                getAD = false
+                response = {
                     headers: {
                         "Access-Control-Allow-Origin": "*",
                         "Content-Type": "application/json",
                     },
                     statusCode: 400,
-                    body: JSON.stringify("failed")
+                    body: JSON.stringify("failed"),
+                    "isBase64Encoded": false
                 }
             }
             console.log("Updated params for ad table are: ", update_params)
-            await dynamoDb.update(update_params).promise()
-                .then((res) => {
-                    console.log("Response after update is: ", res)
-                    if (res.Attributes) {
-                        return {
+            if (getAD) {
+                await dynamoDb.update(update_params).promise()
+                    .then(async (res) => {
+                        console.log("Response after update is: ", res)
+                        if (res.Attributes) {
+                            var user_param = {
+                                Key: {
+                                    USERNAME: username
+                                },
+                                TableName: "USER_INFO"
+                            }
+                            await dynamoDb.get(user_param).promise()
+                                .then((res) => {
+                                    var fullName = res.Item.FULL_NAME
+                                    response = {
+                                        headers: {
+                                            "Access-Control-Allow-Origin": "*",
+                                            "Content-Type": "application/json",
+                                        },
+                                        statusCode: 200,
+                                        body: JSON.stringify({ productDetail, fullName })
+                                    }
+                                })
+
+                        }
+                    }).catch((err) => {
+                        console.log("Error is: ", err)
+                        response = {
                             headers: {
                                 "Access-Control-Allow-Origin": "*",
                                 "Content-Type": "application/json",
                             },
-                            statusCode: 200,
-                            body: JSON.stringify({ productDetail })
+                            statusCode: 500,
+                            body: "failed"
                         }
-                    }
-                }).catch((err) => {
-                    console.log("Error is: ", err)
-                    return {
-                        headers: {
-                            "Access-Control-Allow-Origin": "*",
-                            "Content-Type": "application/json",
-                        },
-                        statusCode: 500,
-                        body: "failed"
-                    }
-                })
+                    })
+            }
         }).catch((err) => {
             console.log("Error is: ", err)
-            return {
+            response = {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     "Content-Type": "application/json",
@@ -83,4 +100,5 @@ exports.handler = async (event) => {
                 body: "failed"
             }
         })
+    return response
 };

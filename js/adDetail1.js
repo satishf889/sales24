@@ -3,8 +3,8 @@ document.getElementById('closeButton').addEventListener('click', (e) => {
     window.location = 'index1.html'
 })
 
-var getAdDetail=async function(id){
-    var url="https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/adinfo"
+var getAdDetail = async function (id) {
+    var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/adinfo"
     await fetch(url, {
         Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
         method: 'POST',
@@ -23,44 +23,157 @@ var getAdDetail=async function(id){
             return
         }
 
-        return res.text().then((data)=>{
-            data=JSON.parse(data)
-            console.log(data.productDetail)
-            let productDetail=data.productDetail
-            document.getElementById('productNameHead').innerText=productDetail.PRODUCT_NAME
-            document.getElementById('productName').innerText=productDetail.PRODUCT_NAME
-            document.getElementById('productPrice').innerText=productDetail.PRODUCT_PRICE
-            document.getElementById('productLocation').innerText=" "+productDetail.PRODUCT_LOCATION
-            document.getElementById('productDescription').innerText=productDetail.PRODUCT_DESCRIPTION
-            document.getElementById('productCategory').innerText=productDetail.PRODUCT_CATEGORY
-            document.getElementById('productBrand').innerText=productDetail.PRODUCT_BRAND
-            document.getElementById('productUsername').innerText=id.split('/')[0]
-            document.getElementById('productImage').src=productDetail.S3_LOCATION
+        return res.text().then((data) => {
+            data = JSON.parse(data)
+            let productDetail = data.productDetail
+            document.getElementById('productNameHead').innerText = productDetail.PRODUCT_NAME
+            document.getElementById('productName').innerText = productDetail.PRODUCT_NAME
+            document.getElementById('productPrice').innerText = productDetail.PRODUCT_PRICE
+            document.getElementById('productLocation').innerText = " " + productDetail.PRODUCT_LOCATION
+            document.getElementById('productDescription').innerText = productDetail.PRODUCT_DESCRIPTION
+            document.getElementById('productCategory').innerText = productDetail.PRODUCT_CATEGORY
+            document.getElementById('productBrand').innerText = productDetail.PRODUCT_BRAND
+            document.getElementById('productUsername').innerText = data.fullName
+            document.getElementById('productImage').src = productDetail.S3_LOCATION
         })
     }).catch((err) => {
         alert("Something went wrong. Please login Again")
-        console.log(err)
-        //delete_cookie("_sales24JWT")
-        //window.location = 'login.html';
+        delete_cookie("_sales24JWT")
+        window.location = 'login.html';
     })
 }
 
 
 const params = new URLSearchParams(document.location.search);
 const adId = params.get("AD_ID");
-if(adId){
-getAdDetail(adId)
+if (adId) {
+    getAdDetail(adId)
 }
-// else{
-//     window.location="index1.html"
-// }
+else{
+    window.location="index1.html"
+}
 
-if(readCookie('_sales24JWT')!=''){
-    if(likedADS(adId)=="true"){
-        document.getElementById('likeButton').style.color=red
+if (readCookie('_sales24JWT') != '') {
+    (async () => {
+        var flag = await likedADS(adId) == "true"
+        if (flag) {
+            document.getElementById('likeButton').style.color = "red"
+        }
+    })()
+}
+
+
+var productWishlist = async function (AD_ID, id) {
+    const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/wishlistad"
+    await fetch(url, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'POST',
+        body: JSON.stringify({ "AD_KEY": AD_ID }),
+        headers: {
+            'Content-Type': 'application/JSON',
+            'Authorization': user_data.Token
+        }
+    }).then((res) => {
+        if (res.status == 400) {
+            document.getElementById(id).style.color = "grey"
+            return
+        }
+        else if (res.status == 500) {
+            alert("Something went wrong.Please try again.")
+            return
+        }
+
+        return res.text().then((data) => {
+            data = JSON.parse(data)
+            document.getElementById(id).style.color = "red"
+            document.getElementById(id).disabled = false
+        })
+    }).catch((err) => {
+        document.getElementById(id).style.color = "grey"
+        alert("Something went wrong. Please login Again")
+        delete_cookie("_sales24JWT")
+        window.location = 'login.html';
+    })
+}
+
+var removeProductWishlist = async (AD_ID, id) => {
+    const url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/removewishlist"
+    await fetch(url, {
+        Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+        method: 'POST',
+        body: JSON.stringify({ "AD_KEY": AD_ID }),
+        headers: {
+            'Content-Type': 'application/JSON',
+            'Authorization': user_data.Token
+        }
+    }).then((res) => {
+        if (res.status == 400) {
+            document.getElementById(id).style.color = "red"
+            return
+        }
+        else if (res.status == 500) {
+            alert("Something went wrong.Please try again.")
+            return
+        }
+
+        return res.text().then((data) => {
+            data = JSON.parse(data)
+            document.getElementById(id).style.color = "grey"
+            document.getElementById(id).disabled = false
+        })
+
+    }).catch((err) => {
+        document.getElementById(id).style.color = "red"
+        alert("Something went wrong. Please login Again")
+        console.log(err)
+        delete_cookie("_sales24JWT")
+        window.location = 'login.html';
+    })
+}
+
+document.getElementById('likeButton').addEventListener('click', (e) => {
+    if (readCookie('_sales24JWT') == '') {
+        login()
+        return;
     }
+    var likeButton = document.getElementById('likeButton');
+    if (likeButton.style.color == 'grey') {
+        likeButton.style.color = 'red'
+        likeButton.disabled = true
+        productWishlist(adId, 'likeButton')
+        return;
+    }
+    likeButton.style.color = 'grey'
+    likeButton.disabled = true
+    removeProductWishlist(adId, 'likeButton')
+})
+
+var getNumber=async function(){
+    if (readCookie('_sales24JWT') == '') {
+        login()
+        return;
+    }
+    profile_details()
 }
 
-document.getElementById('likeButton').addEventListener('click',(e)=>{
-    liked(adId)
+var url = "https://8xmv9zllk6.execute-api.us-east-1.amazonaws.com/DEV/me/getmobilenumber"
+var profile_details = async () => await fetch(url, {
+    Host: "8xmv9zllk6.execute-api.us-east-1.amazonaws.com",
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/text',
+        'Authorization': user_data.Token
+    }
+}).then((res) => {
+    return res.text().then((data) => {
+        data = JSON.parse(data)
+        console.log(res)
+        document.getElementById('mobileNumber').innerText=data.mobileNumber
+        document.getElementById('numberText').style.display="none"
+    })
+}).catch((err) => {
+    alert("Something went wrong. Please login Again")
+    console.log(err)
+    delete_cookie("_sales24JWT")
+    login()
 })

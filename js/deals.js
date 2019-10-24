@@ -1,10 +1,11 @@
 var start = true;
 var starting=true;
 var starting_category=true;
-document.getElementById("searchMoreCategory").addEventListener('onclick',(e)=>{
+document.getElementById("searchMoreCategory").addEventListener('click',(e)=>{
     e.preventDefault()
-    var url="adSeach.html?category="+document.getElementById("productCategory").value
-    window.location(url)
+    var url="adSearch.html?category="+(document.getElementById("productCategory").value)
+    alert(url)
+    window.location=url
 })
 
 
