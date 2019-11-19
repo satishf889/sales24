@@ -4,7 +4,6 @@ var starting_category=true;
 document.getElementById("searchMoreCategory").addEventListener('click',(e)=>{
     e.preventDefault()
     var url="adSearch.html?category="+(document.getElementById("productCategory").value)
-    alert(url)
     window.location=url
 })
 

@@ -1,3 +1,6 @@
+if (readCookie("_sales24JWT")) {
+    window.location = 'index1.html';
+}
 var registerForm = document.getElementById('registerForm')
 registerForm.addEventListener('submit', (e) => {
     registerForm.checkValidity()
@@ -61,7 +64,7 @@ registerForm.addEventListener('submit', (e) => {
                     }
                     return res.text().then((data) => {
                         data = JSON.parse(data)
-                        var JWTdata = JSON.stringify({ "Token": data.Token, "username": username, "lastLogin": data.Last_Login})
+                        var JWTdata = JSON.stringify({ "Token": data.Token, "username": username,"fullName":data.FULL_NAME, "lastLogin": data.Last_Login})
                         writeCookie("_sales24JWT", JWTdata, 2)
                         window.location = 'index1.html';
                     })

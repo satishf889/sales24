@@ -7,7 +7,7 @@ if (readCookie("_sales24JWT") == '') {
 }
 
 var user_data = JSON.parse(readCookie("_sales24JWT"))
-document.getElementById("userActions").innerHTML = "Hi, " + user_data.username,
+document.getElementById("userActions").innerHTML = "Hi, " + user_data.fullName,
     document.getElementById("lastLogin").innerHTML = "Last Login: " + user_data.lastLogin
 
 
