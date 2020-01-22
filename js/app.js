@@ -345,9 +345,9 @@ var recentlyAdsPosted = async () => {
                     break;
                 }
             }
-            if (sessionStorage.getItem('lastSearchedKey')==null) {
-                document.getElementById('lastAd').style.display = "block"
-            }
+            // if (sessionStorage.getItem('lastSearchedKey')==null) {
+            //     document.getElementById('lastAd').style.display = "block"
+            // }
         })
     })
         .catch((err) => {
@@ -424,13 +424,14 @@ var postByCategory = async (category) => {
                     document.getElementById("loaderCategory").style.display = "none"
                     if (total_data.length > i) {
                         document.getElementById("searchMoreCategory").style.display = "block"
+                        document.getElementById('lastAdCategory').style.display="none"
                     }
                     break
                 }
             }
-            if (sessionStorage.getItem('lastSearchedKey')==null) {
-                document.getElementById('lastAdCategory').style.display = "block"
-            }
+            // if (sessionStorage.getItem('lastSearchedKey')==null) {
+            //     document.getElementById('lastAdCategory').style.display = "block"
+            // }
         })
     })
         .catch((err) => {

@@ -25,3 +25,4 @@ var categoryStart = true
 var limit=true
 postByCategory("Electronics")
 recentlyAdsPosted()
+sessionStorage.removeItem("lastSearchedKey");
