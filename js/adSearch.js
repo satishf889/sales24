@@ -8,6 +8,11 @@ document.getElementById("closeButton").onclick = function() {
 
 var categoryStart = true;
 var postByCategory = async category => {
+  document.addEventListener("click", handler, true);
+  function handler(e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
   var body = JSON.stringify({ lastScannedIndex: false, category });
   if (sessionStorage.getItem("lastSearchedKey") && starting == false) {
     body = JSON.stringify({
@@ -94,6 +99,7 @@ var postByCategory = async category => {
           document.getElementById("lastAd").style.display = "none";
           document.getElementById("searchMore").style.display = "block";
         }
+        document.removeEventListener("click", handler, true);
       });
     })
     .catch(err => {
